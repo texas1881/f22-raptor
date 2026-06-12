@@ -1,5 +1,13 @@
 # GitHub’a ilk push
 
+## Canlı site (GitHub Pages)
+
+Repo **public** iken GitHub Pages ile herkese açık demo:
+
+- Adres: `https://<kullanıcı>.github.io/<repo-adı>/` — örnek: https://texas1881.github.io/f22-raptor/
+- Açmak için: repo **Settings → Pages → Build and deployment → Branch: `main`**, klasör **`/` (root)**.
+- CLI: `gh api -X POST repos/OWNER/REPO/pages -f "build_type=legacy" -f "source[branch]=main" -f "source[path]=/"`
+
 Bu makinede **Git** ve [GitHub CLI](https://cli.github.com/) (`gh`) kurulu olmalı.
 
 ## 1) Kurulum (yoksa)

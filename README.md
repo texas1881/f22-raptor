@@ -1,5 +1,10 @@
 # F-22 Raptor — concept landing
 
+**Canlı demo (GitHub Pages):** https://texas1881.github.io/f22-raptor/  
+*(İlk açılışta yayın 1–5 dakika gecikebilir; repo **Settings → Pages** altında “Visit site” ile doğrula.)*
+
+**Kaynak:** https://github.com/texas1881/f22-raptor
+
 Tek sayfa: `index.html` (HTML + CSS + JS).
 
 ## Klasör yapısı
