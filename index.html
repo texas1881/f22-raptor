@@ -1453,6 +1453,18 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
+    .showcase3d__loading-hint {
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: none;
+      color: var(--text-muted);
+      opacity: 0.88;
+      max-width: 16rem;
+      text-align: center;
+      line-height: 1.45;
+      padding: 0 12px;
+    }
     .showcase3d__loading.is-done {
       opacity: 0;
       visibility: hidden;
@@ -1633,12 +1645,12 @@
   <aside class="file-protocol-banner" id="fileProtocolBanner" role="alert" aria-live="polite">
     <div class="file-protocol-banner__rail" aria-hidden="true">NOTAM</div>
     <div class="file-protocol-banner__body">
-      <p class="file-protocol-banner__k">Yerel dosya · 3D / varlık kısıtı</p>
+      <p class="file-protocol-banner__k">Local file · 3D / asset limitation</p>
       <p>
-        <strong>file://</strong> ile açıyorsunuz: tarayıcı <code>f22.glb</code> için <strong>fetch</strong>’i engeller (CORS / Failed to fetch). Proje klasöründe <code>npx --yes serve</code> çalıştırıp <code>http://localhost:…</code> adresini kullanın. Hero videosu yoksa arka plan statik kalır; video eklemek için <code>assets/video/README.md</code> dosyasına bakın.
+        You opened this page with <strong>file://</strong>: the browser blocks <strong>fetch</strong> for <code>f22.glb</code> (CORS / Failed to fetch). From the project folder run <code>npx --yes serve</code> and open <code>http://localhost:…</code> instead. If there is no hero video, the background stays static; see <code>assets/video/README.md</code> to add one.
       </p>
     </div>
-    <button type="button" class="file-protocol-banner__close" id="fileProtocolClose" aria-label="Uyarıyı kapat">×</button>
+    <button type="button" class="file-protocol-banner__close" id="fileProtocolClose" aria-label="Dismiss notice">×</button>
   </aside>
   <div class="parallax-bg" id="parallaxBg" aria-hidden="true"></div>
 
@@ -1770,12 +1782,13 @@
               </div>
               <div class="viz-slate" role="status">
                 <span class="viz-slate__stamp">SIM · NO GLB</span>
-                <p class="viz-slate__text" id="fake3dMsg">Model yüklenemedi — geometri önizlemesi. assets/models/f22.glb ve HTTP sunucusu gerekir.</p>
+                <p class="viz-slate__text" id="fake3dMsg">Could not load the model — geometry preview only. Check that <code>assets/models/f22.glb</code> is reachable; the file is ~27 MB and may take a few minutes on a slow network. If you opened this page as <code>file://</code>, use a local server (e.g. <code>npx serve</code>).</p>
               </div>
             </div>
             <div class="showcase3d__loading" id="mvLoading" aria-live="polite" aria-busy="true">
               <div class="showcase3d__loading-ring" aria-hidden="true"></div>
               <span>Loading model</span>
+              <span class="showcase3d__loading-hint">Large asset: first load may take 1–2 minutes.</span>
             </div>
           </div>
         </div>
@@ -1789,7 +1802,7 @@
         <p class="reveal reveal--delay-1">
           The F-22 Raptor brings together speed, discretion, and integrated intelligence in a form that reads as inevitable: a flagship for the air domain—presented here as a premium product narrative for conceptual exploration.
         </p>
-        <a href="#vitrine-spec" class="btn btn--primary reveal reveal--delay-2">Özet vitrin</a>
+        <a href="#vitrine-spec" class="btn btn--primary reveal reveal--delay-2">Summary showcase</a>
       </div>
     </section>
 
@@ -1889,7 +1902,7 @@
     <div class="footer__links">
       <a href="#overview">Overview</a>
       <a href="#model-3d">3D</a>
-      <a href="#vitrine-spec">Vitrin</a>
+      <a href="#vitrine-spec">Showcase</a>
     </div>
   </footer>
 
@@ -2134,7 +2147,7 @@
           if (mvLoading && !mvLoading.classList.contains("is-done")) {
             activateFallback();
           }
-        }, 14000);
+        }, 180000);
         function clearHung() {
           window.clearTimeout(hung);
         }
@@ -2173,7 +2186,7 @@
         var fm = document.getElementById("fake3dMsg");
         if (fm) {
           fm.textContent =
-            "file:// kökeni CORS ile .glb yüklemeyi engeller. Proje klasöründe «npx --yes serve» → tarayıcıda http://localhost… · beklenen yol assets/models/f22.glb";
+            "Opening via file:// blocks loading the .glb (CORS). From the project folder run «npx --yes serve», then open http://localhost… · expected path: assets/models/f22.glb";
         }
       } else if (window.customElements && typeof customElements.whenDefined === "function") {
         Promise.race([
@@ -2181,7 +2194,7 @@
           new Promise(function (_, rej) {
             setTimeout(function () {
               rej(new Error("model-viewer-timeout"));
-            }, 8000);
+            }, 30000);
           }),
         ])
           .then(initShowcase3d)
