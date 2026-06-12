@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F-22 Raptor — Air Dominance, Redefined</title>
+  <link rel="icon" href="assets/images/branding/lockheed-martin-logo.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/images/branding/lockheed-martin-logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light;
+      /* Light launch — white page, dark type */
+      --bg-void: #ffffff;
+      --bg-deep: #f4f5f7;
+      --bg-panel: #ffffff;
+      --bg-elevated: #fafbfc;
+      --graphite: #eceef1;
+      --metal-edge: #dfe3e8;
+      --text-primary: #0c0e12;
+      --text-metal: #2a3038;
+      --text-muted: #4b545e;
+      --text-subtle: #6d7680;
+      --accent: #5a626c;
+      --accent-dim: #7a838e;
+      --accent-soft: rgba(0, 0, 0, 0.05);
+      --accent-soft-strong: rgba(0, 0, 0, 0.08);
+      --accent-glow: rgba(0, 0, 0, 0.06);
+      --accent-line: rgba(0, 0, 0, 0.12);
+      --radar: #4d5a54;
+      --radar-soft: rgba(77, 90, 84, 0.08);
+      --radar-line: rgba(77, 90, 84, 0.18);
+      --border: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.12);
+      --border-metal: rgba(0, 0, 0, 0.06);
+      /* On photography / video blocks */
+      --on-photo: #f6f8fb;
+      --on-photo-muted: rgba(230, 234, 240, 0.88);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --nav-h: 80px;
+      --file-banner-h: 0px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+      --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-brand: "Outfit", "Inter", var(--font-ui);
+      --font-hero: "Inter", var(--font-ui);
+      /* Tactical accent — Design / 3D / NOTAM (tek palet) */
+      --raptor-gold: #c5a059;
+      --raptor-gold-bright: #e0c882;
+      --raptor-gold-deep: #8a703f;
+      --raptor-gold-a55: rgba(197, 160, 89, 0.55);
+      --raptor-gold-a45: rgba(197, 160, 89, 0.45);
+      --raptor-gold-a35: rgba(197, 160, 89, 0.35);
+      --raptor-gold-a22: rgba(197, 160, 89, 0.22);
+      --raptor-gold-a15: rgba(197, 160, 89, 0.15);
+      --raptor-gold-a12: rgba(197, 160, 89, 0.12);
+      --raptor-gold-a10: rgba(197, 160, 89, 0.1);
+      --raptor-gold-a08: rgba(197, 160, 89, 0.08);
+      --raptor-gold-a25: rgba(197, 160, 89, 0.25);
+      --raptor-gold-a28: rgba(197, 160, 89, 0.28);
+      --raptor-cool-haze: rgba(168, 196, 220, 0.14);
+    }
+
+    html.is-file-protocol {
+      --file-banner-h: 72px;
+    }
+    .file-protocol-banner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10001;
+      min-height: var(--file-banner-h);
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      background: #050608;
+      color: #b8c2ce;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      border-bottom: 2px solid var(--raptor-gold-deep);
+      box-shadow:
+        0 0 0 1px var(--raptor-gold-a25),
+        0 12px 40px rgba(0, 0, 0, 0.55);
+    }
+    html.is-file-protocol .file-protocol-banner {
+      display: flex;
+    }
+    html.is-file-protocol .nav {
+      top: var(--file-banner-h);
+    }
+    .file-protocol-banner__rail {
+      flex-shrink: 0;
+      width: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 6px;
+      background: repeating-linear-gradient(
+        180deg,
+        #0a0c0f,
+        #0a0c0f 3px,
+        #12151a 3px,
+        #12151a 6px
+      );
+      border-right: 1px solid var(--raptor-gold-a35);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--raptor-gold-bright);
+    }
+    .file-protocol-banner__body {
+      flex: 1;
+      padding: 12px clamp(12px, 3vw, 28px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .file-protocol-banner__k {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #7a8a9a;
+    }
+    .file-protocol-banner__body strong {
+      color: #f0ebe0;
+      font-weight: 600;
+    }
+    .file-protocol-banner code {
+      font-family: inherit;
+      font-size: 0.88em;
+      padding: 0.08em 0.4em;
+      border-radius: 2px;
+      background: var(--raptor-gold-a12);
+      color: var(--raptor-gold-bright);
+      border: 1px solid var(--raptor-gold-a28);
+    }
+    .file-protocol-banner__close {
+      margin-left: 0;
+      flex-shrink: 0;
+      width: 44px;
+      align-self: stretch;
+      border: none;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--raptor-gold);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .file-protocol-banner__close:hover {
+      background: var(--raptor-gold-a12);
+      color: #f0e6b8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + var(--file-banner-h));
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg-void);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+    /* Global HUD / night-ops atmosphere (above parallax, below content) */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.35;
+      background:
+        linear-gradient(115deg, transparent 0%, rgba(0, 0, 0, 0.012) 45%, transparent 46%),
+        repeating-linear-gradient(0deg, transparent, transparent 120px, rgba(0, 0, 0, 0.02) 120px, rgba(0, 0, 0, 0.02) 121px);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    /* —— Parallax layer —— */
+    .parallax-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(0, 0, 0, 0.03), transparent 50%),
+        linear-gradient(180deg, #ffffff 0%, #f6f7f9 45%, #ffffff 100%);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+    .parallax-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.4;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 75% 65% at 50% 28%, black, transparent 72%);
+    }
+
+    /* —— Navbar —— */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 48px);
+      transition: background 0.45s var(--ease-soft), backdrop-filter 0.45s var(--ease-soft), border-color 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft);
+    }
+    .nav--at-hero {
+      text-shadow: 0 1px 20px rgba(0, 0, 0, 0.65);
+      background: transparent;
+      border-bottom: 1px solid transparent;
+    }
+    .nav--past-hero {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.06);
+      text-shadow: none;
+    }
+    /* Nav / footer: Lockheed Martin mark (`lockheed-martin-logo.svg`, white fills) */
+    .nav__brand--lm,
+    .footer__brand--lm {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav__brand--lm .lm-brand-mark {
+      display: block;
+      height: clamp(22px, 2.8vw, 28px);
+      width: auto;
+      max-width: min(200px, 58vw);
+      object-fit: contain;
+      object-position: left center;
+    }
+    .nav--at-hero .nav__brand--lm .lm-brand-mark {
+      filter: none;
+      opacity: 0.96;
+    }
+    .nav--past-hero .nav__brand--lm .lm-brand-mark {
+      filter: brightness(0);
+      opacity: 0.88;
+    }
+    .footer__brand--lm .lm-brand-mark {
+      height: 22px;
+      max-width: min(180px, 70vw);
+      filter: brightness(0);
+      opacity: 0.88;
+    }
+    .nav__brand {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* —— Buttons —— */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: transform 0.35s var(--ease-out), box-shadow 0.35s, background 0.35s, color 0.35s, border-color 0.35s;
+    }
+    .btn--primary {
+      color: #ffffff;
+      background: linear-gradient(180deg, #1a1d22 0%, #0c0e12 100%);
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+    .btn--primary:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 0, 0, 0.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 12px 32px rgba(0, 0, 0, 0.16);
+    }
+    .btn--ghost {
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    .btn--ghost:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    /* —— Hero (full-bleed video + left minimal type) —— */
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-end;
+      text-align: left;
+      padding: 0;
+      padding-bottom: calc(clamp(72px, 12vh, 120px) + env(safe-area-inset-bottom, 0px));
+      position: relative;
+      overflow: hidden;
+      background: #020203;
+    }
+    .hero.hero--static .hero__video {
+      opacity: 0;
+    }
+    .hero.hero--static .hero__media {
+      background:
+        radial-gradient(ellipse 80% 70% at 70% 30%, rgba(30, 40, 52, 0.5), transparent 55%),
+        linear-gradient(165deg, #06090e 0%, #020304 50%, #0a0e14 100%);
+    }
+    .hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #030406;
+      transform: translateZ(0);
+      isolation: isolate;
+    }
+    .hero__video {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: translate3d(-50%, -50%, 0);
+      transform-origin: center center;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      /* Kaynak çözünürlüğü koru: renk filtresi kaldırıldı (daha net görünüm) */
+    }
+    .hero__scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(6, 8, 12, 0.82) 0%, rgba(6, 8, 12, 0.45) 38%, rgba(6, 8, 12, 0.12) 58%, transparent 74%),
+        linear-gradient(to top, rgba(4, 5, 8, 0.65) 0%, rgba(4, 5, 8, 0.12) 42%, transparent 62%),
+        linear-gradient(180deg, rgba(4, 5, 8, 0.35) 0%, transparent 36%);
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 64px);
+      padding-top: calc(var(--nav-h) + 24px);
+    }
+    .hero__hl-prefix {
+      font-family: var(--font-hero);
+      font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+      font-weight: 500;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(248, 250, 252, 0.92);
+      margin-bottom: 0.65rem;
+      opacity: 0;
+      animation: heroIn 1s var(--ease-out) 0.12s forwards;
+    }
+    .hero__hl-main {
+      font-family: var(--font-hero);
+      font-size: clamp(2.5rem, 9vw, 5.25rem);
+      font-weight: 600;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: #fafbfc;
+      margin: 0 0 1.35rem;
+      text-transform: uppercase;
+      max-width: 16ch;
+      opacity: 0;
+      animation: heroIn 1s var(--ease-out) 0.28s forwards;
+    }
+    .hero__model-row {
+      max-width: min(380px, 92vw);
+      opacity: 0;
+      animation: heroIn 1s var(--ease-out) 0.48s forwards;
+    }
+    .hero__model-copy {
+      font-family: var(--font-hero);
+      font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+      font-weight: 400;
+      color: rgba(200, 208, 218, 0.78);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .hero__model-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      min-width: 0;
+      padding-left: clamp(18px, 2.8vw, 26px);
+      border-left: 1px solid rgba(255, 255, 255, 0.28);
+      margin-top: 2px;
+    }
+    .lm-logo {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: left center;
+      flex-shrink: 0;
+    }
+    .lm-logo--hero {
+      height: clamp(24px, 4vw, 36px);
+      width: auto;
+      max-width: min(220px, 72vw);
+      opacity: 0.93;
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes radarSweep {
+      to { transform: rotate(360deg); }
+    }
+
+    /* —— Sections common —— */
+    .section {
+      padding: clamp(72px, 12vw, 140px) clamp(24px, 5vw, 64px);
+      position: relative;
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    #overview.section::before {
+      opacity: 1;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
+    }
+    .section__label {
+      font-size: 0.65rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-dim);
+      margin-bottom: 16px;
+    }
+    .section__title {
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+    .section__lead {
+      font-size: clamp(1rem, 1.35vw, 1.125rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      line-height: 1.8;
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal--delay-1 { transition-delay: 0.1s; }
+    .reveal--delay-2 { transition-delay: 0.2s; }
+    .reveal--delay-3 { transition-delay: 0.3s; }
+    .reveal--delay-4 { transition-delay: 0.4s; }
+
+    /* —— Overview: beyaz zemin, yatay, çerçevesiz —— */
+    #overview.section {
+      background: #ffffff;
+      color: var(--text-primary);
+      padding-top: clamp(72px, 11vw, 128px);
+      padding-bottom: clamp(72px, 11vw, 128px);
+      border-bottom: none;
+    }
+    #overview .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(220px, 360px);
+      gap: clamp(36px, 6vw, 80px);
+      align-items: start;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    @media (max-width: 900px) {
+      #overview .overview {
+        grid-template-columns: 1fr;
+      }
+    }
+    #overview .overview__copy {
+      min-width: 0;
+    }
+    #overview .section__label {
+      font-family: "Inter", var(--font-ui);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      margin-bottom: clamp(18px, 2.5vw, 24px);
+    }
+    #overview .section__title {
+      font-family: "Inter", var(--font-ui);
+      font-size: clamp(1.75rem, 3.8vw, 2.85rem);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      margin-bottom: clamp(20px, 3vw, 28px);
+      color: var(--text-primary);
+    }
+    #overview .section__lead {
+      font-family: "Inter", var(--font-ui);
+      font-weight: 300;
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
+      letter-spacing: 0.01em;
+      line-height: 1.65;
+      color: var(--text-muted);
+      max-width: 48rem;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    #overview .overview-spec {
+      margin: 0;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      font-family: "Inter", var(--font-ui);
+    }
+    #overview .overview-spec__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: clamp(16px, 3vw, 28px);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      font-size: 0.875rem;
+    }
+    #overview .overview-spec__row:first-child {
+      padding-top: 2px;
+    }
+    #overview .overview-spec__row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    #overview .overview-spec__k {
+      font-family: "Inter", var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      flex-shrink: 0;
+    }
+    #overview .overview-spec__v {
+      font-family: "Inter", var(--font-ui);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    /* —— Design: Tesla / premium spec — siyah vitrin, PNG cutout + 3D —— */
+    .section.section--viewport-x {
+      max-width: 100%;
+      padding-left: clamp(16px, 3vw, 40px);
+      padding-right: clamp(16px, 3vw, 40px);
+    }
+    #vitrine-spec.section.section--design-spec {
+      background: #000000;
+      color: #ffffff;
+      border-block: none;
+      padding: clamp(48px, 7vw, 88px) 0 0;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+    }
+    #vitrine-spec.section.section--design-spec::before {
+      display: none;
+    }
+    .design-spec {
+      display: flex;
+      flex-direction: column;
+    }
+    .design-spec__header {
+      max-width: min(1320px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 56px) clamp(28px, 4vw, 44px);
+    }
+    .design-spec__header .section__label {
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .design-spec__header .section__title {
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      font-size: clamp(1.75rem, 3.8vw, 2.65rem);
+      line-height: 1.12;
+      margin-bottom: 16px;
+    }
+    .design-spec__header .section__lead {
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 40em;
+      line-height: 1.65;
+      font-size: clamp(0.9rem, 1.15vw, 1rem);
+      font-weight: 400;
+    }
+    .design-spec__kv {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: #000000;
+      gap: 0;
+    }
+    .design-spec__cell {
+      background: #000000;
+      padding: clamp(22px, 3.2vw, 32px) clamp(18px, 3vw, 36px);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .design-spec__cell:nth-child(4n) {
+      border-right: none;
+    }
+    .design-spec__k {
+      display: block;
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 8px;
+      text-transform: none;
+    }
+    .design-spec__v {
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-size: clamp(1.05rem, 1.85vw, 1.35rem);
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+    @media (max-width: 900px) {
+      .design-spec__kv {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .design-spec__cell {
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .design-spec__cell:nth-child(2n) {
+        border-right: none;
+      }
+    }
+    @media (max-width: 480px) {
+      .design-spec__kv {
+        grid-template-columns: 1fr;
+      }
+      .design-spec__cell {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .design-spec__cell:last-child {
+        border-bottom: none;
+      }
+    }
+    #model-3d {
+      scroll-margin-top: calc(var(--nav-h) + 16px);
+    }
+    #vitrine-spec {
+      scroll-margin-top: calc(var(--nav-h) + 16px);
+    }
+    #vitrine-spec .design-datasheet {
+      max-width: min(1320px, 100%);
+      margin: 0 auto;
+      padding: clamp(24px, 3.5vw, 36px) clamp(20px, 4vw, 56px) clamp(8px, 1.5vw, 16px);
+      border-top: none;
+    }
+    #vitrine-spec .design-datasheet__row {
+      display: grid;
+      grid-template-columns: minmax(140px, 32%) 1fr;
+      gap: clamp(14px, 3vw, 24px);
+      align-items: start;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: clamp(20px, 3vw, 28px) 0;
+    }
+    #vitrine-spec .design-datasheet__idx {
+      color: rgba(255, 255, 255, 0.35);
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+    }
+    #vitrine-spec .design-datasheet__name {
+      color: #ffffff;
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    #vitrine-spec .design-datasheet__def {
+      color: rgba(255, 255, 255, 0.52);
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+    @media (max-width: 640px) {
+      #vitrine-spec .design-datasheet__row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+    .design-spec__vitrine {
+      background: #000000;
+      padding: clamp(44px, 7vw, 88px) clamp(20px, 4vw, 48px) clamp(52px, 8vw, 100px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .design-spec__vitrine-inner {
+      max-width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 56%);
+      gap: clamp(24px, 5vw, 56px);
+      align-items: end;
+    }
+    .design-spec__vitrine-head {
+      position: static;
+      z-index: auto;
+      margin: 0;
+      padding: 0 0 clamp(6px, 1.5vw, 12px);
+      max-width: 14em;
+      pointer-events: auto;
+    }
+    .design-spec__vitrine-title {
+      margin: 0;
+      font-family: "Inter", var(--font-ui), system-ui, sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      color: #ffffff;
+    }
+    .design-spec__figure {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      max-width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      min-height: min(42vh, 460px);
+      padding: 0;
+    }
+    .design-spec__cutout {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: min(50vh, 520px);
+      object-fit: contain;
+      object-position: 100% 100%;
+      display: block;
+      margin: 0;
+      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
+    }
+    @media (max-width: 900px) {
+      .design-spec__vitrine-inner {
+        grid-template-columns: 1fr;
+        gap: clamp(20px, 5vw, 36px);
+        align-items: stretch;
+      }
+      .design-spec__vitrine-head {
+        max-width: none;
+        padding-bottom: 0;
+      }
+      .design-spec__figure {
+        min-height: min(36vh, 380px);
+        justify-content: center;
+      }
+      .design-spec__cutout {
+        max-height: min(44vh, 420px);
+        object-position: 50% 100%;
+      }
+    }
+
+    /* —— 3D vitrin: beyaz stüdyo, çerçeve yok —— */
+    #model-3d.section::before {
+      display: none;
+    }
+    .vitrine-studio.section {
+      background: #ffffff;
+      color: #0c0e12;
+      border: none;
+      padding: clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 88px);
+    }
+    .vitrine-studio__title {
+      text-align: center;
+      margin: 0 auto clamp(24px, 3.5vw, 40px);
+      padding: 0 clamp(16px, 4vw, 32px);
+      max-width: min(1080px, 94vw);
+      font-family: "Inter", var(--font-ui);
+      font-weight: 500;
+      font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+      letter-spacing: -0.02em;
+      color: #111111;
+    }
+    .vitrine-studio__stage {
+      width: 100%;
+      max-width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 0 clamp(12px, 3vw, 24px);
+    }
+    .vitrine-studio .showcase3d__frame {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      min-height: min(52vh, 600px);
+      border-radius: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      overflow: visible;
+      isolation: isolate;
+    }
+    .vitrine-studio .showcase3d__frame--studio {
+      display: flex;
+      flex-direction: column;
+    }
+    .vitrine-studio .showcase3d__viewport {
+      position: relative;
+      flex: 1;
+      min-height: min(46vh, 520px);
+      width: 100%;
+      isolation: isolate;
+      overflow: hidden;
+      background: #ffffff;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      border-radius: clamp(14px, 2vw, 22px);
+    }
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv {
+      z-index: 3;
+      --poster-color: #ffffff;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus,
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus-visible,
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus-within {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .vitrine-studio .showcase3d__loading {
+      background: #ffffff;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      z-index: 200;
+    }
+    .vitrine-studio .showcase3d__loading span {
+      color: var(--text-muted);
+    }
+    .vitrine-studio .showcase3d__loading-ring {
+      border-color: rgba(0, 0, 0, 0.08);
+      border-top-color: var(--text-primary);
+    }
+    .vitrine-studio .showcase3d__frame--studio .viz-slate {
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+      clip-path: none;
+    }
+    .vitrine-studio .showcase3d__frame--studio .viz-slate__stamp {
+      color: var(--text-muted);
+    }
+    .vitrine-studio .showcase3d__frame--studio .viz-slate__text {
+      color: var(--text-muted);
+    }
+    @media (max-width: 900px) {
+      .vitrine-studio .showcase3d__frame {
+        min-height: min(48vh, 520px);
+      }
+      .vitrine-studio .showcase3d__viewport {
+        min-height: min(42vh, 460px);
+      }
+    }
+
+    /* —— Performance —— */
+    .performance {
+      background: linear-gradient(180deg, #fafbfc 0%, #f0f2f5 50%, #ffffff 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .perf-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 48px auto 0;
+    }
+    @media (max-width: 900px) {
+      .perf-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .perf-grid { grid-template-columns: 1fr; }
+    }
+    .perf-card {
+      text-align: center;
+      padding: 36px 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      transition: transform 0.45s var(--ease-out), border-color 0.45s, box-shadow 0.45s;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+    .perf-card::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 14px;
+      height: 2px;
+      border-radius: 0 0 2px 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .perf-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    }
+    .perf-card__num {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-family: var(--font-brand);
+      background: linear-gradient(185deg, #1a1e24 0%, #4a5159 48%, #2e333a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .perf-card__label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
+
+    /* —— Technology —— */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 48px auto 0;
+    }
+    @media (max-width: 700px) {
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+    .tech-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-strong);
+      padding: 32px;
+      background: #ffffff;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: transform 0.45s var(--ease-out), border-color 0.45s, box-shadow 0.45s;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.04);
+    }
+    .tech-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+    }
+    .tech-card__icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-deep);
+      display: grid;
+      place-items: center;
+      color: var(--text-metal);
+      font-size: 1.1rem;
+    }
+    .tech-card h3 { font-size: 1.05rem; margin-bottom: 10px; font-weight: 600; }
+    .tech-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* —— Cockpit —— */
+    .cockpit {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 480px);
+      gap: clamp(40px, 6vw, 72px);
+      align-items: center;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .cockpit { grid-template-columns: 1fr; }
+    }
+    .cockpit-ui {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(155deg, #f0f2f5 0%, #e8eaee 50%, #f4f5f7 100%);
+      padding: 24px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.45s var(--ease-out), box-shadow 0.45s;
+    }
+    .cockpit-ui:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.1);
+    }
+    .cockpit-ui__top {
+      display: flex;
+      gap: 10px;
+      height: 58%;
+    }
+    .cockpit-radar {
+      flex: 1.2;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.04), transparent 55%),
+        repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 8deg, rgba(0, 0, 0, 0.03) 8deg 9deg);
+      position: relative;
+      overflow: hidden;
+    }
+    .cockpit-radar::after {
+      content: "";
+      position: absolute;
+      inset: 15%;
+      border: 1px dashed rgba(0, 0, 0, 0.12);
+      border-radius: 50%;
+    }
+    .cockpit-radar__hud {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15), transparent);
+      transform: translate(-50%, -50%) rotate(-35deg);
+      opacity: 0.5;
+    }
+    .cockpit-side {
+      flex: 0.8;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cockpit-mini {
+      flex: 1;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.75);
+      padding: 10px 12px;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
+    .cockpit-mini strong { display: block; color: var(--text-primary); font-size: 0.95rem; margin-top: 4px; letter-spacing: 0.04em; }
+    .cockpit-ui__bottom {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+    }
+    .cockpit-bar {
+      flex: 1;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.04), transparent);
+      position: relative;
+      overflow: hidden;
+    }
+    .cockpit-bar::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 40%;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.08), transparent);
+    }
+
+    /* —— Specs —— */
+    .specs-list {
+      max-width: 800px;
+      margin: 48px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .spec-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 22px 28px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      align-items: center;
+      transition: transform 0.4s var(--ease-out), border-color 0.4s, box-shadow 0.4s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+    .spec-row::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      bottom: 12px;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.08), transparent);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .spec-row:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.07);
+    }
+    .spec-row__k {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
+    .spec-row__v {
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: right;
+      color: var(--text-primary);
+    }
+    @media (max-width: 600px) {
+      .spec-row { grid-template-columns: 1fr; gap: 8px; padding-left: 22px; }
+      .spec-row__v { text-align: left; }
+    }
+
+    /* —— Gallery —— */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 48px auto 0;
+    }
+    @media (max-width: 640px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+    .gallery-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      border: 1px solid var(--border-strong);
+      cursor: default;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    }
+    .gallery-card__bg {
+      position: absolute;
+      inset: 0;
+      background-size: 200% 200%;
+      transition: transform 0.7s var(--ease-out), filter 0.5s;
+    }
+    .gallery-card:hover .gallery-card__bg {
+      transform: scale(1.06);
+    }
+    .gallery-card--1 .gallery-card__bg {
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 45%),
+        url("assets/images/sections/f22-design.jpg") center 30% / cover no-repeat;
+    }
+    .gallery-card--2 .gallery-card__bg {
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 45%),
+        url("assets/images/sections/f22-design.jpg") 70% 40% / cover no-repeat;
+    }
+    .gallery-card--3 .gallery-card__bg {
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 45%),
+        url("assets/images/sections/f22-design.jpg") 20% 55% / cover no-repeat;
+    }
+    .gallery-card--4 .gallery-card__bg {
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 45%),
+        url("assets/images/sections/f22-design.jpg") 55% 25% / cover no-repeat;
+    }
+    .gallery-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gallery-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+    }
+    .gallery-card p {
+      font-size: 0.8rem;
+      color: rgba(235, 238, 242, 0.82);
+      margin-top: 6px;
+    }
+
+    /* —— Final CTA —— */
+    .finale {
+      text-align: center;
+      padding: clamp(100px, 16vw, 160px) 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .finale__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 0, 0, 0.04), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #f6f7f9 100%);
+      z-index: 0;
+    }
+    .finale__content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .finale h2 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+    .finale p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    /* —— Footer —— */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: clamp(28px, 4vw, 40px) clamp(24px, 5vw, 64px);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer__left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      font-size: 0.72rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .footer__model {
+      font-family: var(--font-hero);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      max-width: 360px;
+      line-height: 1.5;
+    }
+    .footer__note {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+      letter-spacing: 0.08em;
+    }
+    .footer__links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-self: flex-end;
+    }
+    .footer__links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+    .footer__links a:hover { color: var(--accent); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .showcase3d__frame {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(180deg, #f2f4f7 0%, #e8ebf0 50%, #f6f7fa 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+        0 24px 64px rgba(0, 0, 0, 0.08);
+      min-height: min(68vh, 720px);
+      width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .showcase3d__mv {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      touch-action: none;
+      cursor: grab;
+      --poster-color: transparent;
+      background: radial-gradient(ellipse 75% 55% at 50% 42%, rgba(255, 255, 255, 0.5), transparent 62%);
+    }
+    .showcase3d__mv:active {
+      cursor: grabbing;
+    }
+    .showcase3d__loading {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
+      transition: opacity 0.5s var(--ease-soft), visibility 0.5s;
+    }
+    .showcase3d__loading-ring {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.08);
+      border-top-color: var(--text-primary);
+      animation: mvSpin 0.9s linear infinite;
+    }
+    .showcase3d__loading span {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .showcase3d__loading.is-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    @keyframes mvSpin {
+      to { transform: rotate(360deg); }
+    }
+    /* CSS fallback “virtual” aircraft */
+    .showcase3d__fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      perspective-origin: 50% 40%;
+    }
+    .showcase3d__fallback:not([hidden]) {
+      z-index: 5;
+    }
+    .showcase3d__fallback[hidden] {
+      display: none !important;
+    }
+    .fake3d {
+      position: relative;
+      width: min(92%, 720px);
+      height: min(48vh, 320px);
+      transform-style: preserve-3d;
+    }
+    .fake3d__radar {
+      position: absolute;
+      inset: -20%;
+      background: repeating-conic-gradient(from 0deg at 50% 55%, transparent 0deg 5deg, rgba(0, 0, 0, 0.03) 5deg 6deg);
+      animation: radarSweep 22s linear infinite;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .fake3d__flare {
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      width: 70%;
+      height: 2px;
+      transform: translateX(-50%) rotate(-6deg);
+      background: linear-gradient(90deg, transparent, rgba(180, 215, 232, 0.35), transparent);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+    .fake3d__hull {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateX(8deg) rotateY(-12deg);
+      transition: transform 0.15s var(--ease-soft);
+    }
+    .fake3d__fuselage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 72%;
+      height: 14%;
+      transform: translate(-50%, -50%) translateZ(24px);
+      background: linear-gradient(180deg, #2a3544 0%, #121820 40%, #0a0e14 100%);
+      border-radius: 4px 40% 40% 4px;
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -4px 12px rgba(0, 0, 0, 0.5),
+        0 20px 40px rgba(0, 0, 0, 0.45),
+        0 0 40px -8px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    .fake3d__fuselage::after {
+      content: "";
+      position: absolute;
+      right: 8%;
+      top: 15%;
+      width: 28%;
+      height: 55%;
+      border-radius: 2px 8px 8px 2px;
+      background: linear-gradient(90deg, rgba(8, 10, 14, 0.9), #1a2430);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .fake3d__wing {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 95%;
+      height: 22%;
+      transform: translate(-50%, -35%) rotateX(62deg) translateZ(-8px);
+      background: linear-gradient(105deg, transparent 0%, #1a222c 12%, #252f3c 50%, #1a222c 88%, transparent 100%);
+      opacity: 0.92;
+      filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.5));
+      clip-path: polygon(5% 40%, 20% 25%, 50% 15%, 80% 25%, 95% 40%, 88% 75%, 50% 88%, 12% 75%);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .fake3d__wing--rear {
+      transform: translate(-50%, -20%) rotateX(72deg) translateZ(-36px) scale(0.92);
+      opacity: 0.55;
+    }
+    .fake3d__fin {
+      position: absolute;
+      left: 62%;
+      top: 28%;
+      width: 6%;
+      height: 42%;
+      background: linear-gradient(90deg, #1c2430, #0e1218);
+      transform: skewX(-8deg) translateZ(18px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+    }
+    .fake3d__nose {
+      position: absolute;
+      left: 8%;
+      top: 50%;
+      width: 18%;
+      height: 10%;
+      transform: translateY(-50%) translateZ(30px);
+      background: linear-gradient(90deg, #0a0e14, #2a3848);
+      clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .viz-slate {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 56px;
+      z-index: 2;
+      padding: 12px 14px 14px 16px;
+      border: 1px solid var(--raptor-gold-a45);
+      background:
+        linear-gradient(135deg, var(--raptor-gold-a08) 0%, transparent 42%),
+        rgba(5, 7, 10, 0.92);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+    .viz-slate__stamp {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.52rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--raptor-gold);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .viz-slate__text {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.62rem;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+      color: #8fa0b0;
+      margin: 0;
+    }
+    .showcase3d__frame--studio .viz-slate {
+      bottom: clamp(16px, 3vh, 28px);
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+      clip-path: none;
+    }
+    .showcase3d__frame--studio .viz-slate__stamp {
+      color: var(--text-muted);
+    }
+    .showcase3d__frame--studio .viz-slate__text {
+      color: var(--text-muted);
+    }
+    .showcase3d--fallback .showcase3d__mv {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <aside class="file-protocol-banner" id="fileProtocolBanner" role="alert" aria-live="polite">
+    <div class="file-protocol-banner__rail" aria-hidden="true">NOTAM</div>
+    <div class="file-protocol-banner__body">
+      <p class="file-protocol-banner__k">Yerel dosya · 3D / varlık kısıtı</p>
+      <p>
+        <strong>file://</strong> ile açıyorsunuz: tarayıcı <code>f22.glb</code> için <strong>fetch</strong>’i engeller (CORS / Failed to fetch). Proje klasöründe <code>npx --yes serve</code> çalıştırıp <code>http://localhost:…</code> adresini kullanın. Hero videosu yoksa arka plan statik kalır; video eklemek için <code>assets/video/README.md</code> dosyasına bakın.
+      </p>
+    </div>
+    <button type="button" class="file-protocol-banner__close" id="fileProtocolClose" aria-label="Uyarıyı kapat">×</button>
+  </aside>
+  <div class="parallax-bg" id="parallaxBg" aria-hidden="true"></div>
+
+  <header class="nav nav--at-hero" id="nav">
+    <a href="#hero" class="nav__brand nav__brand--lm" aria-label="F-22 Raptor home">
+      <img
+        class="lm-brand-mark"
+        src="assets/images/branding/lockheed-martin-logo.svg"
+        alt=""
+        width="360"
+        height="87"
+        decoding="async"
+      />
+    </a>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__media" aria-hidden="true">
+        <video
+          id="heroVideo"
+          class="hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline="true"
+          preload="auto"
+          disablepictureinpicture
+          disableremoteplayback
+        >
+        </video>
+        <div class="hero__scrim"></div>
+      </div>
+      <div class="hero__content">
+        <p class="hero__hl-prefix">THE</p>
+        <h1 class="hero__hl-main" id="hero-title">F-22 Raptor</h1>
+        <div class="hero__model-row">
+          <div class="hero__model-stack">
+            <svg
+              class="lm-logo lm-logo--hero"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 359.5 86.67"
+              role="img"
+              aria-labelledby="hero-lm-title"
+              focusable="false"
+            >
+              <title id="hero-lm-title">Lockheed Martin</title>
+              <polygon fill="#ffffff" points="178.46 44.23 173.83 54.05 169.64 54.05 169.19 44.23 169.03 44.23 167 54.05 162.6 54.05 165.66 39.35 172.89 39.35 173 47.8 173.19 47.8 176.77 39.35 184.21 39.35 181.16 54.05 176.52 54.05 178.64 44.23 178.46 44.23" />
+              <path fill="#ffffff" d="M413.65,311.05l-.28-5.57h-.17l-2.7,5.57Zm-2.91-9h6.7l1,14.69h-4.8l-.07-2.6h-4.3l-1.17,2.6h-4.52Z" transform="translate(-216.25 -262.67)" />
+              <polygon fill="#ffffff" points="231.42 42.82 228.2 42.82 228.92 39.35 240.16 39.35 239.44 42.82 236.22 42.82 233.88 54.05 229.08 54.05 231.42 42.82" />
+              <polygon fill="#ffffff" points="259.32 39.35 265.83 39.35 267.26 48.13 267.4 48.13 269.23 39.35 273.79 39.35 270.74 54.05 264.23 54.05 263 45.06 262.84 45.06 260.97 54.05 256.26 54.05 259.32 39.35" />
+              <path fill="#ffffff" d="M432.8,308.14c1.36,0,1.94-.67,1.94-1.56,0-.73-.42-1.09-1.4-1.09h-1.21l-.55,2.65ZM428,302h7.09c3.46,0,4.68,1.92,4.68,3.75a3.84,3.84,0,0,1-3.48,3.79v.2a2.22,2.22,0,0,1,2,2.41c0,1-.21,2-.21,3.23a9.11,9.11,0,0,0,.13,1.31h-5.14a7.93,7.93,0,0,1-.08-.85c0-1.23.34-2.09.34-3.44a1.08,1.08,0,0,0-1.22-1.21h-1.24l-1.14,5.5H425Z" transform="translate(-216.25 -262.67)" />
+              <polygon fill="#ffffff" points="246.25 39.35 251.05 39.35 248 54.05 243.19 54.05 246.25 39.35" />
+              <polygon fill="#ffffff" points="3.06 39.35 7.86 39.35 5.53 50.58 10.23 50.58 9.54 54.05 0 54.05 3.06 39.35" />
+              <polygon fill="#ffffff" points="58.64 39.35 63.44 39.35 62.13 45.67 62.25 45.67 66.5 39.35 71.62 39.35 66.31 46.29 68.97 54.05 63.85 54.05 61.86 47.52 61.74 47.52 60.39 54.05 55.58 54.05 58.64 39.35" />
+              <polygon fill="#ffffff" points="83.55 48.54 80.69 48.54 79.54 54.05 74.73 54.05 77.79 39.35 82.6 39.35 81.45 44.87 84.32 44.87 85.46 39.35 90.27 39.35 87.21 54.05 82.4 54.05 83.55 48.54" />
+              <polygon fill="#ffffff" points="117.33 39.35 127.43 39.35 126.7 42.82 121.41 42.82 120.96 44.99 125.76 44.99 125.03 48.45 120.24 48.45 119.8 50.58 125.33 50.58 124.61 54.05 114.27 54.05 117.33 39.35" />
+              <polygon fill="#ffffff" points="98.92 39.35 109.02 39.35 108.3 42.82 103 42.82 102.55 44.99 107.35 44.99 106.62 48.45 101.83 48.45 101.39 50.58 106.92 50.58 106.2 54.05 95.86 54.05 98.92 39.35" />
+              <path fill="#ffffff" d="M238.84,313.25c2.11,0,3-5.25,3-6.46a1.15,1.15,0,0,0-1.25-1.29c-2.17,0-3,5.34-3,6.45a1.15,1.15,0,0,0,1.25,1.3m2.28-11.43c3.57,0,5.5,2,5.5,5.19,0,3.86-2,9.91-8.29,9.91-3.48,0-5.51-1.92-5.51-5.16,0-4.27,2.21-9.94,8.3-9.94" transform="translate(-216.25 -262.67)" />
+              <path fill="#ffffff" d="M355.29,313.25h1.4c1.95,0,3.3-2.57,3.3-5.74,0-1.15-.51-2-2.23-2h-.86ZM352.83,302h5.44c4.64,0,6.56,2.6,6.56,5.47,0,5.46-3.44,9.22-9.2,9.22h-5.86Z" transform="translate(-216.25 -262.67)" />
+              <path fill="#ffffff" d="M265,311.21a6.76,6.76,0,0,1-7.08,5.71c-3.55,0-5.5-2-5.5-5.17,0-3.7,1.89-9.93,8.3-9.93,2.94,0,5.29,1.09,5.21,4.22a13.55,13.55,0,0,1-.14,1.49h-4.47a6.3,6.3,0,0,0,.09-.92,1.06,1.06,0,0,0-1.17-1.11c-2.2,0-3,5.28-3,6.46a1.14,1.14,0,0,0,1.22,1.29c.74,0,1.42-.57,2-2Z" transform="translate(-216.25 -262.67)" />
+              <path fill="#ffffff" d="M575.75,292.46H543.12c4.28-16.12,8.15-29.79,8.15-29.79s-14.69,15.71-27.74,29.79l-129.35.27h0l126.15,3.18c-9.71,10.32-14.82,16.2-15,16.41l.05-.05c.42-.37,17.88-16.29,17.88-16.29l15.35.39-2.31,12.11-71.93,40.69-.29.16s57.12-30,71.54-37.3c0,0-5.06,26.42-5.06,26.53a.2.2,0,0,0,0-.05v.05l.06-.26c.47-1.72,3.5-12.11,7.63-27.48,18.77-9.58,37.53-18.36,37.53-18.36M541.91,279l-2.58,13.49H527.1Zm.08,17.48,14.87.38-17.66,10c1-3.55,1.82-6.79,2.79-10.37" transform="translate(-216.25 -262.67)" />
+            </svg>
+            <p class="hero__model-copy">Fifth-generation air superiority fighter</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="overview">
+        <div class="overview__copy">
+          <p class="section__label reveal">Overview</p>
+          <h2 class="section__title reveal reveal--delay-1">Engineered for control of the air.</h2>
+          <p class="section__lead reveal reveal--delay-2">
+            The F-22 Raptor represents a generational step in fighter design: a platform shaped around signature management, kinetic performance, and information advantage. It is built to establish and maintain air superiority through integrated design—not isolated upgrades—so the aircraft, its sensors, and its flight control logic read as a single, coherent system.
+          </p>
+          <p class="section__lead reveal reveal--delay-3" style="margin-top: 20px;">
+            Presented here as a concept launch experience, the narrative focuses on form, technology, and pilot-centered operation—the qualities that define a flagship product at the edge of what is possible.
+          </p>
+        </div>
+        <aside class="overview-spec reveal reveal--delay-2" aria-label="Key figures">
+          <div class="overview-spec__row"><span class="overview-spec__k">Role</span><span class="overview-spec__v">Air Superiority</span></div>
+          <div class="overview-spec__row"><span class="overview-spec__k">Generation</span><span class="overview-spec__v">5th Generation</span></div>
+          <div class="overview-spec__row"><span class="overview-spec__k">Manufacturer</span><span class="overview-spec__v">Lockheed Martin</span></div>
+          <div class="overview-spec__row"><span class="overview-spec__k">First Flight</span><span class="overview-spec__v">1997</span></div>
+          <div class="overview-spec__row"><span class="overview-spec__k">Crew</span><span class="overview-spec__v">1 Pilot</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section vitrine-studio" id="model-3d" aria-labelledby="model-3d-title">
+      <h2 class="vitrine-studio__title reveal" id="model-3d-title">F-22 Raptor</h2>
+      <div class="vitrine-studio__stage">
+        <div class="showcase3d__frame showcase3d__frame--studio">
+          <div class="showcase3d__viewport">
+            <model-viewer
+              id="raptorMv"
+              class="showcase3d__mv"
+              src="assets/models/f22.glb"
+              alt="F-22 Raptor 3D model"
+              camera-controls
+              disable-zoom
+              orbit-sensitivity="0.38"
+              field-of-view="29deg"
+              min-field-of-view="29deg"
+              max-field-of-view="29deg"
+              camera-orbit="0deg 70deg 54%"
+              min-camera-orbit="-360deg 55deg 42%"
+              max-camera-orbit="360deg 88deg auto"
+              interpolation-decay="55"
+              environment-image="neutral"
+              shadow-intensity="0.88"
+              exposure="1.12"
+              interaction-prompt="none"
+            ></model-viewer>
+            <div class="showcase3d__fallback" id="fallback3d" hidden>
+              <div class="fake3d" id="fake3dRoot">
+                <div class="fake3d__radar" aria-hidden="true"></div>
+                <div class="fake3d__flare" aria-hidden="true"></div>
+                <div class="fake3d__hull" id="fake3dHull">
+                  <div class="fake3d__wing fake3d__wing--rear" aria-hidden="true"></div>
+                  <div class="fake3d__wing" aria-hidden="true"></div>
+                  <div class="fake3d__fuselage" aria-hidden="true"></div>
+                  <div class="fake3d__fin" aria-hidden="true"></div>
+                  <div class="fake3d__nose" aria-hidden="true"></div>
+                </div>
+              </div>
+              <div class="viz-slate" role="status">
+                <span class="viz-slate__stamp">SIM · NO GLB</span>
+                <p class="viz-slate__text" id="fake3dMsg">Model yüklenemedi — geometri önizlemesi. assets/models/f22.glb ve HTTP sunucusu gerekir.</p>
+              </div>
+            </div>
+            <div class="showcase3d__loading" id="mvLoading" aria-live="polite" aria-busy="true">
+              <div class="showcase3d__loading-ring" aria-hidden="true"></div>
+              <span>Loading model</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="finale" id="finale">
+      <div class="finale__bg" aria-hidden="true"></div>
+      <div class="finale__content">
+        <h2 class="reveal">Dominance Has a Shape.</h2>
+        <p class="reveal reveal--delay-1">
+          The F-22 Raptor brings together speed, discretion, and integrated intelligence in a form that reads as inevitable: a flagship for the air domain—presented here as a premium product narrative for conceptual exploration.
+        </p>
+        <a href="#vitrine-spec" class="btn btn--primary reveal reveal--delay-2">Özet vitrin</a>
+      </div>
+    </section>
+
+    <section class="section section--design-spec" id="vitrine-spec">
+      <div class="design-spec">
+        <header class="design-spec__header">
+          <p class="section__label reveal">Raptor</p>
+          <h2 class="section__title reveal reveal--delay-1">Specifications</h2>
+          <p class="section__lead reveal reveal--delay-2" style="max-width: 40em;">
+            Technical summary on black: key figures, narrative rows, and a silhouette hero frame—no card chrome.
+          </p>
+        </header>
+        <div class="design-spec__kv reveal reveal--delay-1">
+          <div class="design-spec__cell">
+            <span class="design-spec__k">Generation</span>
+            <span class="design-spec__v">5th gen</span>
+          </div>
+          <div class="design-spec__cell">
+            <span class="design-spec__k">Crew</span>
+            <span class="design-spec__v">1 pilot</span>
+          </div>
+          <div class="design-spec__cell">
+            <span class="design-spec__k">Role</span>
+            <span class="design-spec__v">Air superiority</span>
+          </div>
+          <div class="design-spec__cell">
+            <span class="design-spec__k">First flight</span>
+            <span class="design-spec__v">1997</span>
+          </div>
+        </div>
+        <div class="design-datasheet">
+          <div class="design-datasheet__row reveal reveal--delay-1">
+            <div class="design-datasheet__term">
+              <span class="design-datasheet__idx">01</span>
+              <span class="design-datasheet__name">Low observable profile</span>
+            </div>
+            <p class="design-datasheet__def">
+              Shaping and materials work together to reduce detectability across key spectra, allowing the platform to operate with a smaller electromagnetic footprint.
+            </p>
+          </div>
+          <div class="design-datasheet__row reveal reveal--delay-2">
+            <div class="design-datasheet__term">
+              <span class="design-datasheet__idx">02</span>
+              <span class="design-datasheet__name">Aerodynamic precision</span>
+            </div>
+            <p class="design-datasheet__def">
+              Control surfaces and lifting-body geometry are tuned for high-alpha authority and efficient cruise—form follows both speed and stability.
+            </p>
+          </div>
+          <div class="design-datasheet__row reveal reveal--delay-3">
+            <div class="design-datasheet__term">
+              <span class="design-datasheet__idx">03</span>
+              <span class="design-datasheet__name">Tactical presence</span>
+            </div>
+            <p class="design-datasheet__def">
+              An assertive stance on the ramp or in the sky: the aircraft communicates intent through proportion, line, and surface tension alone.
+            </p>
+          </div>
+        </div>
+        <div class="design-spec__vitrine reveal reveal--delay-2" aria-labelledby="vitrine-title">
+          <div class="design-spec__vitrine-inner">
+            <div class="design-spec__vitrine-head">
+              <h3 class="design-spec__vitrine-title" id="vitrine-title">F-22 Raptor</h3>
+            </div>
+            <figure class="design-spec__figure">
+              <img
+                class="design-spec__cutout"
+                src="assets/images/sections/f22-vitrine.png"
+                alt="F-22 Raptor"
+                width="1600"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__left">
+      <a href="#hero" class="footer__brand footer__brand--lm" aria-label="F-22 Raptor home">
+        <img
+          class="lm-brand-mark"
+          src="assets/images/branding/lockheed-martin-logo.svg"
+          alt=""
+          width="360"
+          height="87"
+          decoding="async"
+        />
+      </a>
+      <p class="footer__model">F-22 Raptor — Fifth-generation air dominance platform.</p>
+      <p class="footer__note">Concept launch experience</p>
+    </div>
+    <div class="footer__links">
+      <a href="#overview">Overview</a>
+      <a href="#model-3d">3D</a>
+      <a href="#vitrine-spec">Vitrin</a>
+    </div>
+  </footer>
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script defer>
+    (function () {
+      var isFileProtocol = location.protocol === "file:";
+      if (isFileProtocol) {
+        document.documentElement.classList.add("is-file-protocol");
+      }
+      var fpClose = document.getElementById("fileProtocolClose");
+      if (fpClose) {
+        fpClose.addEventListener("click", function () {
+          document.documentElement.classList.remove("is-file-protocol");
+        });
+      }
+
+      var nav = document.getElementById("nav");
+      var parallaxBg = document.getElementById("parallaxBg");
+
+      function onScroll() {
+        var y = window.scrollY || window.pageYOffset;
+        var pastHero = false;
+        if (heroEl) {
+          pastHero = y > Math.max(0, heroEl.offsetHeight - 72);
+        } else {
+          pastHero = y > 120;
+        }
+        if (nav) {
+          nav.classList.toggle("nav--past-hero", pastHero);
+          nav.classList.toggle("nav--at-hero", !pastHero);
+        }
+
+        if (parallaxBg) {
+          var t = y * 0.04;
+          parallaxBg.style.transform = "translate3d(0, " + t + "px, 0)";
+        }
+      }
+
+      var heroEl = document.getElementById("hero");
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      onScroll();
+
+      var heroVideo = document.getElementById("heroVideo");
+      if (heroVideo && heroEl) {
+        var heroSources = [
+          { url: "assets/video/f22-hero.mp4", type: "video/mp4" },
+          { url: "assets/video/f22-hero.webm", type: "video/webm" },
+          { url: "assets/video/f22.mp4", type: "video/mp4" }
+        ];
+        function bindHeroVideoControls() {
+          heroVideo.muted = true;
+          heroVideo.defaultMuted = true;
+          heroVideo.setAttribute("muted", "");
+          heroVideo.volume = 0;
+          heroVideo.addEventListener("volumechange", function () {
+            if (!heroVideo.muted) {
+              heroVideo.muted = true;
+              heroVideo.volume = 0;
+            }
+          });
+          heroVideo.addEventListener("error", function () {
+            heroEl.classList.add("hero--static");
+          });
+          var p = heroVideo.play();
+          if (p && typeof p.catch === "function") {
+            p.catch(function () {
+              heroEl.classList.add("hero--static");
+            });
+          }
+        }
+        function tryHeroSource(i) {
+          if (i >= heroSources.length) {
+            heroEl.classList.add("hero--static");
+            bindHeroVideoControls();
+            return;
+          }
+          fetch(heroSources[i].url, { method: "HEAD", cache: "force-cache" })
+            .then(function (resp) {
+              if (resp.ok) {
+                var src = document.createElement("source");
+                src.src = heroSources[i].url;
+                src.type = heroSources[i].type;
+                heroVideo.appendChild(src);
+                heroVideo.load();
+                bindHeroVideoControls();
+              } else tryHeroSource(i + 1);
+            })
+            .catch(function () {
+              tryHeroSource(i + 1);
+            });
+        }
+        if (isFileProtocol) {
+          heroEl.classList.add("hero--static");
+          bindHeroVideoControls();
+        } else {
+          tryHeroSource(0);
+        }
+      }
+
+      var revealEls = document.querySelectorAll(".reveal");
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+            }
+          });
+        },
+        { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      );
+      revealEls.forEach(function (el) {
+        io.observe(el);
+      });
+
+      function animateCounter(el, target, prefix, suffix, duration) {
+        var start = performance.now();
+        var from = 0;
+        function frame(now) {
+          var t = Math.min(1, (now - start) / duration);
+          var eased = 1 - Math.pow(1 - t, 3);
+          var val = Math.round(from + (target - from) * eased);
+          el.textContent = (prefix || "") + val + (suffix || "");
+          if (t < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      var counterObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting || entry.target.dataset.done) return;
+            entry.target.dataset.done = "1";
+            var el = entry.target;
+            var target = parseFloat(el.getAttribute("data-target"));
+            var suffix = el.getAttribute("data-suffix") || "";
+            var prefix = el.getAttribute("data-prefix") || "";
+            if (!isNaN(target)) animateCounter(el, target, prefix, suffix, 1400);
+          });
+        },
+        { threshold: 0.35 }
+      );
+      document.querySelectorAll("[data-counter]").forEach(function (c) {
+        counterObserver.observe(c);
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener("click", function (e) {
+          var id = anchor.getAttribute("href");
+          if (id.length < 2) return;
+          var target = document.querySelector(id);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      /* —— 3D showcase: model-viewer + fallback —— */
+      var mvLoading = document.getElementById("mvLoading");
+      var raptorMv = document.getElementById("raptorMv");
+      var fallback3d = document.getElementById("fallback3d");
+      var showcaseFrame = document.querySelector(".vitrine-studio .showcase3d__frame");
+      var fake3dHull = document.getElementById("fake3dHull");
+      var turntableAzimuth = 0;
+      var fakeTurntableY = -12;
+      var MV_ORBIT_PHI = 70;
+      var MV_ORBIT_RADIUS = "54%";
+
+      function applyMvTurntable() {
+        if (!raptorMv || raptorMv.style.display === "none") return;
+        var a = ((turntableAzimuth % 360) + 360) % 360;
+        raptorMv.cameraOrbit = a + "deg " + MV_ORBIT_PHI + "deg " + MV_ORBIT_RADIUS;
+      }
+
+      function wireCameraSync() {
+        if (!raptorMv || raptorMv.dataset.camSync) return;
+        raptorMv.dataset.camSync = "1";
+        raptorMv.addEventListener("camera-change", function () {
+          try {
+            if (typeof raptorMv.getCameraOrbit !== "function") return;
+            var o = raptorMv.getCameraOrbit();
+            if (o && typeof o.theta === "number") turntableAzimuth = o.theta;
+          } catch (e) {}
+        });
+      }
+
+      function endMvLoading() {
+        if (!mvLoading) return;
+        mvLoading.classList.add("is-done");
+        mvLoading.setAttribute("aria-busy", "false");
+      }
+
+      function wireFallbackParallax() {
+        if (!showcaseFrame || !fake3dHull || showcaseFrame.dataset.parallaxWired) return;
+        showcaseFrame.dataset.parallaxWired = "1";
+        function applyTilt(xn, yn) {
+          var rx = 8 - yn * 16;
+          var ry = fakeTurntableY + xn * 12;
+          fake3dHull.style.transform =
+            "rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+        }
+        function resetTilt() {
+          fake3dHull.style.transform = "rotateX(8deg) rotateY(" + fakeTurntableY + "deg)";
+        }
+        showcaseFrame.addEventListener("mousemove", function (e) {
+          if (!fallback3d || fallback3d.hidden) return;
+          var r = showcaseFrame.getBoundingClientRect();
+          applyTilt((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5);
+        });
+        showcaseFrame.addEventListener("mouseleave", function () {
+          if (fallback3d && !fallback3d.hidden) resetTilt();
+        });
+        showcaseFrame.addEventListener(
+          "touchmove",
+          function (e) {
+            if (!fallback3d || fallback3d.hidden || !e.touches || e.touches.length !== 1) return;
+            var r = showcaseFrame.getBoundingClientRect();
+            var t = e.touches[0];
+            applyTilt((t.clientX - r.left) / r.width - 0.5, (t.clientY - r.top) / r.height - 0.5);
+          },
+          { passive: true }
+        );
+        showcaseFrame.addEventListener("touchend", function () {
+          if (fallback3d && !fallback3d.hidden) resetTilt();
+        });
+      }
+
+      function activateFallback() {
+        endMvLoading();
+        if (raptorMv) raptorMv.style.display = "none";
+        if (showcaseFrame) showcaseFrame.classList.add("showcase3d--fallback");
+        if (fallback3d) fallback3d.hidden = false;
+        wireFallbackParallax();
+      }
+
+      function initShowcase3d() {
+        if (!raptorMv || !mvLoading) return;
+        var hung = window.setTimeout(function () {
+          if (mvLoading && !mvLoading.classList.contains("is-done")) {
+            activateFallback();
+          }
+        }, 14000);
+        function clearHung() {
+          window.clearTimeout(hung);
+        }
+        raptorMv.addEventListener(
+          "load",
+          function () {
+            clearHung();
+            endMvLoading();
+            try {
+              if (typeof raptorMv.getCameraOrbit === "function") {
+                var o = raptorMv.getCameraOrbit();
+                if (o && typeof o.theta === "number") {
+                  turntableAzimuth = o.theta;
+                }
+              }
+            } catch (e) {}
+            applyMvTurntable();
+          },
+          { once: true }
+        );
+        raptorMv.addEventListener(
+          "error",
+          function () {
+            clearHung();
+            activateFallback();
+          },
+          { once: true }
+        );
+      }
+
+      if (isFileProtocol) {
+        if (raptorMv) raptorMv.removeAttribute("src");
+        activateFallback();
+        var st = document.querySelector(".viz-slate__stamp");
+        if (st) st.textContent = "ORIGIN · NULL";
+        var fm = document.getElementById("fake3dMsg");
+        if (fm) {
+          fm.textContent =
+            "file:// kökeni CORS ile .glb yüklemeyi engeller. Proje klasöründe «npx --yes serve» → tarayıcıda http://localhost… · beklenen yol assets/models/f22.glb";
+        }
+      } else if (window.customElements && typeof customElements.whenDefined === "function") {
+        Promise.race([
+          customElements.whenDefined("model-viewer"),
+          new Promise(function (_, rej) {
+            setTimeout(function () {
+              rej(new Error("model-viewer-timeout"));
+            }, 8000);
+          }),
+        ])
+          .then(initShowcase3d)
+          .catch(function () {
+            activateFallback();
+          });
+      } else {
+        activateFallback();
+      }
+      wireCameraSync();
+    })();
+  </script>
+</body>
+</html>

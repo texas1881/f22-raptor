@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.cursor/
+.vscode/
+*.swp
+*~
+
+# Logs & env (güvenlik)
+*.log
+.env
+.env.*
+!.env.example
+
+# Node (ileride eklersen)
+node_modules/
+
+# Büyük medya — repoya eklemek istersen bu satırları sil
+# assets/video/*.mp4
+# assets/video/*.webm
+# assets/models/*.glb

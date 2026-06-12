@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">F-22 Raptor mark</title>
+  <defs>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9fd4e8"/>
+      <stop offset="100%" stop-color="#4a6a78"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f4f7fa"/>
+      <stop offset="100%" stop-color="#7a9fb5"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#0a0e14" stroke="url(#ring)" stroke-width="2"/>
+  <path fill="url(#wing)" d="M12 36 L32 16 L52 36 L44 36 L32 24 L20 36 Z" opacity="0.95"/>
+  <path fill="#0d1218" d="M26 36 L32 28 L38 36 Z"/>
+</svg>
