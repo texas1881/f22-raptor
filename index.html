@@ -173,14 +173,27 @@
     html {
       scroll-behavior: smooth;
       scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + var(--file-banner-h));
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.28) rgba(0, 0, 0, 0.04);
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
     }
     html::-webkit-scrollbar {
-      width: 0;
-      height: 0;
+      width: 8px;
+      height: 8px;
+    }
+    html::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.04);
+    }
+    html::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.32);
+      background-clip: padding-box;
     }
     body {
       font-family: var(--font-ui);
@@ -189,12 +202,81 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.28) rgba(0, 0, 0, 0.04);
     }
     body::-webkit-scrollbar {
-      width: 0;
-      height: 0;
+      width: 8px;
+      height: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.04);
+    }
+    body::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 10002;
+      padding: 12px 18px;
+      background: #0c0e12;
+      color: #fafbfc;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .skip-link:focus {
+      left: max(12px, env(safe-area-inset-left, 0px));
+      top: max(12px, env(safe-area-inset-top, 0px));
+      outline: 2px solid var(--raptor-gold);
+      outline-offset: 3px;
+    }
+    @media (min-width: 1100px) and (pointer: fine) {
+      .chapter-rail {
+        position: fixed;
+        right: max(10px, env(safe-area-inset-right, 0px));
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 900;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid var(--border);
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.06);
+      }
+      .chapter-rail__dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      }
+      .chapter-rail__dot:hover,
+      .chapter-rail__dot:focus-visible {
+        background: var(--raptor-gold-a45);
+        border-color: var(--raptor-gold-deep);
+        transform: scale(1.15);
+        box-shadow: 0 0 0 2px var(--raptor-gold-a22);
+        outline: none;
+      }
+    }
+    @media (max-width: 1099px), (pointer: coarse) {
+      .chapter-rail {
+        display: none !important;
+      }
     }
     /* Global HUD / night-ops atmosphere (above parallax, below content) */
     body::after {
@@ -244,7 +326,8 @@
       right: 0;
       z-index: 1000;
       box-sizing: border-box;
-      height: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+      min-height: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+      height: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -299,6 +382,38 @@
       align-items: center;
       text-decoration: none;
       color: inherit;
+    }
+    .nav__sections {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: clamp(10px, 2vw, 22px);
+      row-gap: 6px;
+      max-width: min(52vw, 420px);
+    }
+    .nav__link {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(252, 252, 253, 0.9);
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+      white-space: nowrap;
+      transition: color 0.25s, border-color 0.25s, opacity 0.25s;
+    }
+    .nav__link:hover {
+      color: #ffffff;
+      border-bottom-color: rgba(255, 255, 255, 0.35);
+    }
+    .nav--past-hero .nav__link {
+      color: var(--text-muted);
+      text-shadow: none;
+    }
+    .nav--past-hero .nav__link:hover {
+      color: var(--text-primary);
+      border-bottom-color: var(--raptor-gold-a55);
     }
 
     /* —— Buttons —— */
@@ -540,6 +655,32 @@
     .reveal--delay-3 { transition-delay: 0.3s; }
     .reveal--delay-4 { transition-delay: 0.4s; }
 
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .reveal,
+      .reveal.is-visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .reveal--delay-1,
+      .reveal--delay-2,
+      .reveal--delay-3,
+      .reveal--delay-4 {
+        transition-delay: 0s !important;
+      }
+      .hero__hl-prefix,
+      .hero__hl-main,
+      .hero__model-row,
+      .hero__model-copy {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
     /* —— Overview: beyaz zemin, yatay, çerçevesiz —— */
     #overview.section {
       background: #ffffff;
@@ -573,6 +714,8 @@
       text-transform: uppercase;
       color: var(--text-subtle);
       margin-bottom: clamp(18px, 2.5vw, 24px);
+      padding-left: 12px;
+      border-left: 2px solid var(--raptor-gold-a45);
     }
     #overview .section__title {
       font-family: "Inter", var(--font-ui);
@@ -873,9 +1016,22 @@
       border: none;
       padding: clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 88px);
     }
+    .vitrine-studio__eyebrow {
+      display: block;
+      text-align: center;
+      margin: 0 auto 8px;
+      padding: 0 clamp(16px, 4vw, 32px);
+      max-width: min(1080px, 94vw);
+      font-family: "Inter", var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
     .vitrine-studio__title {
       text-align: center;
-      margin: 0 auto clamp(24px, 3.5vw, 40px);
+      margin: 0 auto clamp(20px, 3vw, 36px);
       padding: 0 clamp(16px, 4vw, 32px);
       max-width: min(1080px, 94vw);
       font-family: "Inter", var(--font-ui);
@@ -936,11 +1092,13 @@
       outline: none !important;
       box-shadow: none !important;
     }
-    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus,
-    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus-visible,
-    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus-within {
-      outline: none !important;
-      box-shadow: none !important;
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus:not(:focus-visible) {
+      outline: none;
+    }
+    .vitrine-studio .showcase3d__viewport .showcase3d__mv:focus-visible {
+      outline: 2px solid var(--raptor-gold-deep);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 4px var(--raptor-gold-a15);
     }
     .vitrine-studio .showcase3d__loading {
       background: #ffffff;
@@ -954,6 +1112,28 @@
     .vitrine-studio .showcase3d__loading-ring {
       border-color: rgba(0, 0, 0, 0.08);
       border-top-color: var(--text-primary);
+    }
+    .vitrine-studio .showcase3d__loading-pct {
+      color: #111111;
+    }
+    .vitrine-studio .showcase3d__loading-bar {
+      background: rgba(0, 0, 0, 0.07);
+    }
+    .showcase3d__orbit-hint {
+      display: block;
+      text-align: center;
+      margin: clamp(14px, 2.5vw, 22px) auto 0;
+      padding: 0 clamp(12px, 3vw, 24px);
+      max-width: min(640px, 92vw);
+      font-family: "Inter", var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .vitrine-studio .showcase3d__orbit-hint {
+      color: var(--text-subtle);
     }
     .vitrine-studio .showcase3d__frame--studio .viz-slate {
       border: 1px solid var(--border-strong);
@@ -1320,6 +1500,7 @@
       position: absolute;
       inset: 0;
       background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, var(--raptor-gold-a12), transparent 52%),
         radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 0, 0, 0.04), transparent 55%),
         linear-gradient(180deg, #ffffff 0%, #f6f7f9 100%);
       z-index: 0;
@@ -1342,10 +1523,15 @@
       color: var(--text-muted);
       font-size: 1.05rem;
       line-height: 1.8;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
     }
-
-    /* —— Footer —— */
+    .finale__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
     .footer {
       border-top: 1px solid var(--border);
       padding: clamp(28px, 4vw, 40px) clamp(24px, 5vw, 64px);
@@ -1472,10 +1658,33 @@
       text-transform: none;
       color: var(--text-muted);
       opacity: 0.88;
-      max-width: 16rem;
+      max-width: 18rem;
       text-align: center;
       line-height: 1.45;
       padding: 0 12px;
+    }
+    .showcase3d__loading-pct {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      min-height: 1.35em;
+    }
+    .showcase3d__loading-bar {
+      width: min(280px, 78vw);
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+    .showcase3d__loading-bar__fill {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--raptor-gold-deep), var(--raptor-gold));
+      transition: width 0.18s var(--ease-soft);
     }
     .showcase3d__loading.is-done {
       opacity: 0;
@@ -1701,6 +1910,13 @@
         max-width: min(22rem, 100%);
         box-sizing: border-box;
       }
+      .finale__actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: min(22rem, 100%);
+        margin-left: auto;
+        margin-right: auto;
+      }
       .finale p {
         font-size: clamp(0.95rem, 3.8vw, 1.05rem);
       }
@@ -1749,6 +1965,13 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="chapter-rail" aria-label="On this page">
+    <a href="#hero" class="chapter-rail__dot" title="Hero"><span class="sr-only">Hero</span></a>
+    <a href="#overview" class="chapter-rail__dot" title="Overview"><span class="sr-only">Overview</span></a>
+    <a href="#model-3d" class="chapter-rail__dot" title="3D model"><span class="sr-only">3D model</span></a>
+    <a href="#vitrine-spec" class="chapter-rail__dot" title="Specifications"><span class="sr-only">Specifications</span></a>
+  </nav>
   <aside class="file-protocol-banner" id="fileProtocolBanner" role="alert" aria-live="polite">
     <div class="file-protocol-banner__rail" aria-hidden="true">NOTAM</div>
     <div class="file-protocol-banner__body">
@@ -1772,9 +1995,14 @@
         decoding="async"
       />
     </a>
+    <nav class="nav__sections" aria-label="Page sections">
+      <a href="#overview" class="nav__link">Overview</a>
+      <a href="#model-3d" class="nav__link">3D</a>
+      <a href="#vitrine-spec" class="nav__link">Specs</a>
+    </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <section class="hero" id="hero">
       <div class="hero__media" aria-hidden="true">
         <video
@@ -1850,14 +2078,16 @@
       </div>
     </section>
 
-    <section class="section vitrine-studio" id="model-3d" aria-labelledby="model-3d-title">
-      <h2 class="vitrine-studio__title reveal" id="model-3d-title">F-22 Raptor</h2>
+    <section class="section vitrine-studio" id="model-3d" aria-labelledby="model-3d-eyebrow model-3d-title">
+      <p class="vitrine-studio__eyebrow section__label reveal" id="model-3d-eyebrow">Studio</p>
+      <h2 class="vitrine-studio__title reveal reveal--delay-1" id="model-3d-title">Interactive model</h2>
       <div class="vitrine-studio__stage">
         <div class="showcase3d__frame showcase3d__frame--studio">
           <div class="showcase3d__viewport">
             <model-viewer
               id="raptorMv"
               class="showcase3d__mv"
+              tabindex="0"
               data-src="assets/models/f22.glb"
               alt="F-22 Raptor 3D model"
               camera-controls
@@ -1895,10 +2125,17 @@
             <div class="showcase3d__loading" id="mvLoading" aria-live="polite" aria-busy="true">
               <div class="showcase3d__loading-ring" aria-hidden="true"></div>
               <span>Loading model</span>
-              <span class="showcase3d__loading-hint">The 3D file downloads when this block is almost on screen (~27 MB), so the rest of the page stays fast.</span>
+              <span id="mvLoadPct" class="showcase3d__loading-pct" aria-hidden="true"></span>
+              <div class="showcase3d__loading-bar" aria-hidden="true">
+                <span class="showcase3d__loading-bar__fill" id="mvLoadBar"></span>
+              </div>
+              <span class="showcase3d__loading-hint">~27 MB GLB: download starts with the page. Decoding on device can take time; use Wi-Fi or a smaller Draco-compressed model for faster loads.</span>
             </div>
           </div>
         </div>
+        <p class="showcase3d__orbit-hint" id="mvOrbitHint" hidden>
+          Drag to orbit · Pinch to zoom on touch devices
+        </p>
       </div>
     </section>
 
@@ -1909,7 +2146,10 @@
         <p class="reveal reveal--delay-1">
           The F-22 Raptor brings together speed, discretion, and integrated intelligence in a form that reads as inevitable: a flagship for the air domain—presented here as a premium product narrative for conceptual exploration.
         </p>
-        <a href="#vitrine-spec" class="btn btn--primary reveal reveal--delay-2">Summary showcase</a>
+        <div class="finale__actions reveal reveal--delay-2">
+          <a href="#model-3d" class="btn btn--primary">Open 3D model</a>
+          <a href="#vitrine-spec" class="btn btn--ghost">Specifications</a>
+        </div>
       </div>
     </section>
 
@@ -2297,6 +2537,28 @@
 
       function initShowcase3d() {
         if (!raptorMv || !mvLoading) return;
+        if (raptorMv.dataset.mv3dInit === "1") return;
+        raptorMv.dataset.mv3dInit = "1";
+        var pctEl = document.getElementById("mvLoadPct");
+        var barEl = document.getElementById("mvLoadBar");
+        raptorMv.addEventListener("progress", function (e) {
+          if (!pctEl && !barEl) return;
+          var p = null;
+          try {
+            var d = e.detail;
+            if (d && typeof d.totalProgress === "number") {
+              p = d.totalProgress;
+            } else if (d && typeof d.loaded === "number" && typeof d.total === "number" && d.total > 0) {
+              p = d.loaded / d.total;
+            }
+          } catch (err) {}
+          if (p == null || isNaN(p)) return;
+          if (p < 0) p = 0;
+          if (p > 1) p = 1;
+          var pc = Math.round(p * 100);
+          if (pctEl) pctEl.textContent = pc + "%";
+          if (barEl) barEl.style.width = pc + "%";
+        });
         var hung = window.setTimeout(function () {
           if (mvLoading && !mvLoading.classList.contains("is-done")) {
             activateFallback();
@@ -2310,6 +2572,10 @@
           function () {
             clearHung();
             endMvLoading();
+            var pctDone = document.getElementById("mvLoadPct");
+            var barDone = document.getElementById("mvLoadBar");
+            if (pctDone) pctDone.textContent = "100%";
+            if (barDone) barDone.style.width = "100%";
             applyResponsiveMvLayout();
             try {
               if (typeof raptorMv.getCameraOrbit === "function") {
@@ -2320,6 +2586,8 @@
               }
             } catch (e) {}
             applyMvTurntable();
+            var orbitHint = document.getElementById("mvOrbitHint");
+            if (orbitHint) orbitHint.hidden = false;
           },
           { once: true }
         );
@@ -2340,43 +2608,16 @@
           initShowcase3d();
           return;
         }
-        var mvSection = document.getElementById("model-3d");
-        function startRealLoad() {
-          if (raptorMv.dataset.deferredModelStarted === "1") return;
-          raptorMv.dataset.deferredModelStarted = "1";
-          if (mvLoading) {
-            mvLoading.classList.remove("is-done");
-            mvLoading.setAttribute("aria-busy", "true");
-          }
-          raptorMv.setAttribute("src", modelUrl);
-          initShowcase3d();
-        }
-        if (mvLoading) {
-          mvLoading.classList.add("is-done");
-          mvLoading.setAttribute("aria-busy", "false");
-        }
-        if (!mvSection || !("IntersectionObserver" in window)) {
-          startRealLoad();
-          return;
-        }
-        var obs = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                obs.disconnect();
-                startRealLoad();
-              }
-            });
-          },
-          { root: null, rootMargin: "1000px 0px 1600px 0px", threshold: 0.01 }
-        );
-        obs.observe(mvSection);
-        window.setTimeout(function () {
-          if (raptorMv.dataset.deferredModelStarted !== "1") {
-            obs.disconnect();
-            startRealLoad();
-          }
-        }, 14000);
+        if (raptorMv.dataset.deferredModelStarted === "1") return;
+        raptorMv.dataset.deferredModelStarted = "1";
+        mvLoading.classList.remove("is-done");
+        mvLoading.setAttribute("aria-busy", "true");
+        var pctBoot = document.getElementById("mvLoadPct");
+        var barBoot = document.getElementById("mvLoadBar");
+        if (pctBoot) pctBoot.textContent = "0%";
+        if (barBoot) barBoot.style.width = "0%";
+        raptorMv.setAttribute("src", modelUrl);
+        initShowcase3d();
       }
 
       if (isFileProtocol) {
