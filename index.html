@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="assets/images/branding/lockheed-martin-logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       color-scheme: light;
@@ -581,7 +581,7 @@
     }
     #overview .section__lead {
       font-family: "Inter", var(--font-ui);
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(1rem, 1.35vw, 1.15rem);
       letter-spacing: 0.01em;
       line-height: 1.65;
@@ -1678,7 +1678,7 @@
           loop
           playsinline
           webkit-playsinline="true"
-          preload="auto"
+          preload="metadata"
           disablepictureinpicture
           disableremoteplayback
         >
@@ -1751,7 +1751,7 @@
             <model-viewer
               id="raptorMv"
               class="showcase3d__mv"
-              src="assets/models/f22.glb"
+              data-src="assets/models/f22.glb"
               alt="F-22 Raptor 3D model"
               camera-controls
               disable-zoom
@@ -1788,7 +1788,7 @@
             <div class="showcase3d__loading" id="mvLoading" aria-live="polite" aria-busy="true">
               <div class="showcase3d__loading-ring" aria-hidden="true"></div>
               <span>Loading model</span>
-              <span class="showcase3d__loading-hint">Large asset: first load may take 1–2 minutes.</span>
+              <span class="showcase3d__loading-hint">The 3D file downloads when this block is almost on screen (~27 MB), so the rest of the page stays fast.</span>
             </div>
           </div>
         </div>
@@ -1876,6 +1876,7 @@
                 height="900"
                 loading="lazy"
                 decoding="async"
+                fetchpriority="low"
               />
             </figure>
           </div>
@@ -2001,7 +2002,14 @@
           heroEl.classList.add("hero--static");
           bindHeroVideoControls();
         } else {
-          tryHeroSource(0);
+          var startHero = function () {
+            tryHeroSource(0);
+          };
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(startHero, { timeout: 2400 });
+          } else {
+            setTimeout(startHero, 600);
+          }
         }
       }
 
@@ -2178,8 +2186,57 @@
         );
       }
 
+      function queueDeferredModelLoad() {
+        if (!raptorMv || !mvLoading) return;
+        var modelUrl = raptorMv.getAttribute("data-src");
+        if (!modelUrl) {
+          initShowcase3d();
+          return;
+        }
+        var mvSection = document.getElementById("model-3d");
+        function startRealLoad() {
+          if (raptorMv.dataset.deferredModelStarted === "1") return;
+          raptorMv.dataset.deferredModelStarted = "1";
+          if (mvLoading) {
+            mvLoading.classList.remove("is-done");
+            mvLoading.setAttribute("aria-busy", "true");
+          }
+          raptorMv.setAttribute("src", modelUrl);
+          initShowcase3d();
+        }
+        if (mvLoading) {
+          mvLoading.classList.add("is-done");
+          mvLoading.setAttribute("aria-busy", "false");
+        }
+        if (!mvSection || !("IntersectionObserver" in window)) {
+          startRealLoad();
+          return;
+        }
+        var obs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                obs.disconnect();
+                startRealLoad();
+              }
+            });
+          },
+          { root: null, rootMargin: "240px 0px 360px 0px", threshold: 0.01 }
+        );
+        obs.observe(mvSection);
+        window.setTimeout(function () {
+          if (raptorMv.dataset.deferredModelStarted !== "1") {
+            obs.disconnect();
+            startRealLoad();
+          }
+        }, 14000);
+      }
+
       if (isFileProtocol) {
-        if (raptorMv) raptorMv.removeAttribute("src");
+        if (raptorMv) {
+          raptorMv.removeAttribute("src");
+          raptorMv.removeAttribute("data-src");
+        }
         activateFallback();
         var st = document.querySelector(".viz-slate__stamp");
         if (st) st.textContent = "ORIGIN · NULL";
@@ -2197,7 +2254,7 @@
             }, 30000);
           }),
         ])
-          .then(initShowcase3d)
+          .then(queueDeferredModelLoad)
           .catch(function () {
             activateFallback();
           });
