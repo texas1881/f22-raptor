@@ -921,6 +921,14 @@
     }
     .vitrine-studio .showcase3d__viewport .showcase3d__mv {
       z-index: 3;
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
       --poster-color: #ffffff;
       background: transparent !important;
       border: none !important;
@@ -1665,6 +1673,17 @@
       .overview {
         gap: clamp(24px, 5vw, 40px);
       }
+      /* 3D vitrine: explicit box + dvh so model-viewer / canvas get real dimensions (iOS WebKit) */
+      .vitrine-studio .showcase3d__frame--studio {
+        min-height: min(58dvh, 660px);
+      }
+      .vitrine-studio .showcase3d__viewport {
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: min(50dvh, 580px);
+        height: min(54dvh, 620px);
+        max-height: min(72dvh, 780px);
+      }
     }
 
     @media (max-width: 640px) {
@@ -1698,10 +1717,12 @@
         max-width: min(200px, 85vw);
       }
       .vitrine-studio .showcase3d__frame {
-        min-height: min(44dvh, 400px);
+        min-height: min(54dvh, 580px);
       }
       .vitrine-studio .showcase3d__viewport {
-        min-height: min(40dvh, 360px);
+        min-height: min(48dvh, 520px);
+        height: min(52dvh, 560px);
+        max-height: min(70dvh, 720px);
         border-radius: clamp(12px, 3vw, 18px);
       }
       .vitrine-studio__stage {
@@ -1724,6 +1745,7 @@
         padding: 10px max(12px, env(safe-area-inset-right, 0px)) 12px max(12px, env(safe-area-inset-left, 0px));
       }
     }
+  </style>
 </head>
 <body>
   <aside class="file-protocol-banner" id="fileProtocolBanner" role="alert" aria-live="polite">
@@ -2163,14 +2185,47 @@
       var fake3dHull = document.getElementById("fake3dHull");
       var turntableAzimuth = 0;
       var fakeTurntableY = -12;
-      var MV_ORBIT_PHI = 70;
-      var MV_ORBIT_RADIUS = "54%";
+      var mvOrbitPhi = 70;
+      var mvOrbitRadius = "54%";
 
       function applyMvTurntable() {
         if (!raptorMv || raptorMv.style.display === "none") return;
         var a = ((turntableAzimuth % 360) + 360) % 360;
-        raptorMv.cameraOrbit = a + "deg " + MV_ORBIT_PHI + "deg " + MV_ORBIT_RADIUS;
+        raptorMv.cameraOrbit = a + "deg " + mvOrbitPhi + "deg " + mvOrbitRadius;
       }
+
+      function applyResponsiveMvLayout() {
+        if (!raptorMv || raptorMv.style.display === "none") return;
+        var narrow = window.matchMedia("(max-width: 768px)").matches;
+        try {
+          if (narrow) {
+            raptorMv.removeAttribute("disable-zoom");
+            raptorMv.setAttribute("orbit-sensitivity", "1.05");
+            raptorMv.setAttribute("field-of-view", "34deg");
+            raptorMv.setAttribute("min-field-of-view", "28deg");
+            raptorMv.setAttribute("max-field-of-view", "40deg");
+            mvOrbitPhi = 68;
+            mvOrbitRadius = "72%";
+          } else {
+            raptorMv.setAttribute("disable-zoom", "");
+            raptorMv.setAttribute("orbit-sensitivity", "0.38");
+            raptorMv.setAttribute("field-of-view", "29deg");
+            raptorMv.setAttribute("min-field-of-view", "29deg");
+            raptorMv.setAttribute("max-field-of-view", "29deg");
+            mvOrbitPhi = 70;
+            mvOrbitRadius = "54%";
+          }
+        } catch (e) {}
+      }
+
+      var mvLayoutResizeTimer;
+      window.addEventListener("resize", function () {
+        window.clearTimeout(mvLayoutResizeTimer);
+        mvLayoutResizeTimer = window.setTimeout(function () {
+          applyResponsiveMvLayout();
+          applyMvTurntable();
+        }, 120);
+      });
 
       function wireCameraSync() {
         if (!raptorMv || raptorMv.dataset.camSync) return;
@@ -2248,6 +2303,7 @@
           function () {
             clearHung();
             endMvLoading();
+            applyResponsiveMvLayout();
             try {
               if (typeof raptorMv.getCameraOrbit === "function") {
                 var o = raptorMv.getCameraOrbit();
@@ -2346,6 +2402,7 @@
         activateFallback();
       }
       wireCameraSync();
+      applyResponsiveMvLayout();
     })();
   </script>
 </body>
