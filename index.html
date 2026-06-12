@@ -8,6 +8,7 @@
   <link rel="apple-touch-icon" href="assets/images/branding/lockheed-martin-logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="assets/models/f22.glb" as="fetch" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -2083,39 +2084,45 @@
             });
           }
         }
-        function tryHeroSource(i) {
-          if (i >= heroSources.length) {
-            heroEl.classList.add("hero--static");
-            bindHeroVideoControls();
-            return;
-          }
-          fetch(heroSources[i].url, { method: "HEAD", cache: "force-cache" })
-            .then(function (resp) {
-              if (resp.ok) {
-                var src = document.createElement("source");
-                src.src = heroSources[i].url;
-                src.type = heroSources[i].type;
-                heroVideo.appendChild(src);
-                heroVideo.load();
-                bindHeroVideoControls();
-              } else tryHeroSource(i + 1);
+        function startHero() {
+          Promise.all(
+            heroSources.map(function (s) {
+              return fetch(s.url, { method: "HEAD", cache: "force-cache" })
+                .then(function (resp) {
+                  return !!resp.ok;
+                })
+                .catch(function () {
+                  return false;
+                });
             })
-            .catch(function () {
-              tryHeroSource(i + 1);
-            });
+          ).then(function (oks) {
+            var picked = -1;
+            for (var j = 0; j < oks.length; j++) {
+              if (oks[j]) {
+                picked = j;
+                break;
+              }
+            }
+            if (picked < 0) {
+              picked = 0;
+            }
+            var hs = heroSources[picked];
+            var src = document.createElement("source");
+            src.src = hs.url;
+            src.type = hs.type;
+            heroVideo.preload = "auto";
+            heroVideo.appendChild(src);
+            heroVideo.load();
+            bindHeroVideoControls();
+          });
         }
         if (isFileProtocol) {
           heroEl.classList.add("hero--static");
           bindHeroVideoControls();
         } else {
-          var startHero = function () {
-            tryHeroSource(0);
-          };
-          if ("requestIdleCallback" in window) {
-            requestIdleCallback(startHero, { timeout: 2400 });
-          } else {
-            setTimeout(startHero, 600);
-          }
+          requestAnimationFrame(function () {
+            startHero();
+          });
         }
       }
 
@@ -2168,7 +2175,7 @@
       document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
         anchor.addEventListener("click", function (e) {
           var id = anchor.getAttribute("href");
-          if (id.length < 2) return;
+          if (!id || id.length < 2) return;
           var target = document.querySelector(id);
           if (target) {
             e.preventDefault();
@@ -2361,7 +2368,7 @@
               }
             });
           },
-          { root: null, rootMargin: "240px 0px 360px 0px", threshold: 0.01 }
+          { root: null, rootMargin: "1000px 0px 1600px 0px", threshold: 0.01 }
         );
         obs.observe(mvSection);
         window.setTimeout(function () {
