@@ -1,7 +1,7 @@
 # F-22 Raptor — site varlıkları
 
 ```
-assets/
+public/assets/
 ├── images/
 │   ├── branding/          # Logo, armalar, ikonlar
 │   └── sections/          # Bölüm görselleri (ör. Design / Gallery)

@@ -1,0 +1,9 @@
+{
+  "extends": ["html-validate:document"],
+  "rules": {
+    "void-style": "off",
+    "no-unknown-elements": "off",
+    "no-trailing-whitespace": "warn",
+    "require-sri": "off"
+  }
+}

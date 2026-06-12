@@ -1,0 +1,15 @@
+{
+  "name": "f22-raptor",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:html": "html-validate index.html"
+  },
+  "devDependencies": {
+    "html-validate": "^9.0.0",
+    "vite": "^6.3.5"
+  }
+}

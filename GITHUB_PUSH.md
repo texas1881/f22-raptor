@@ -1,10 +1,25 @@
 # GitHub’a ilk push
 
-## Canlı site (GitHub Pages)
+## Canlı site (GitHub Pages) — **GitHub Actions (önerilen)**
+
+Bu repo **Vite** ile `dist/` üretir; `.github/workflows/pages.yml` her `main` push’ında derleyip Pages’e yükler.
+
+1. Repo **Settings → Pages → Build and deployment**
+2. **Source:** **GitHub Actions** seçin (eski “Deploy from a branch / `main` / (root)” yöntemini kapatın; aksi halde çakışma olabilir).
+3. İlk push sonrası **Actions** sekmesinden “Deploy GitHub Pages” iş akışının yeşil bittiğini doğrulayın; birkaç dakika içinde site güncellenir.
+
+Adres: `https://<kullanıcı>.github.io/<repo-adı>/` — örnek: https://texas1881.github.io/f22-raptor/
+
+### Eski yöntem (düz `main` kökünden statik dosya)
+
+Kökte tek `index.html` + `assets/` varken “branch / root” ile yayın uygundu. **Artık kökte derlenmiş `dist/` yok**; Actions kullanmadan sadece branch’ten yayınlarsanız Vite çıktısı gitmez. Actions kullanın veya manuel olarak `dist/` içeriğini köke kopyalayan ayrı bir süreç tanımlayın.
+
+---
+
+## Canlı site (eski not — branch deploy)
 
 Repo **public** iken GitHub Pages ile herkese açık demo:
 
-- Adres: `https://<kullanıcı>.github.io/<repo-adı>/` — örnek: https://texas1881.github.io/f22-raptor/
 - Açmak için: repo **Settings → Pages → Build and deployment → Branch: `main`**, klasör **`/` (root)**.
 - CLI: `gh api -X POST repos/OWNER/REPO/pages -f "build_type=legacy" -f "source[branch]=main" -f "source[path]=/"`
 

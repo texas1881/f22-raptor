@@ -1,43 +1,61 @@
 # F-22 Raptor — concept landing
 
 **Canlı demo (GitHub Pages):** https://texas1881.github.io/f22-raptor/  
-*(İlk açılışta yayın 1–5 dakika gecikebilir; repo **Settings → Pages** altında “Visit site” ile doğrula.)*
-
 **Kaynak:** https://github.com/texas1881/f22-raptor
 
-Tek sayfa: `index.html` (HTML + CSS + JS).
+Statik tek sayfa: kök `index.html` + `src/main.js` + `src/style.css`. Üretimde Vite `dist/` üretir; GitHub Actions ile Pages’e yüklenir (ayar için bkz. `GITHUB_PUSH.md`).
 
 ## Klasör yapısı
 
 ```
-f22 raptor/
-├── index.html
-├── README.md
-└── assets/
-    ├── README.md              # Varlık özeti ve logo notları
-    ├── images/branding/       # Logo / amblemler
-    ├── video/                 # Hero arka plan videoları
-    └── models/                # 3D vitrin .glb
+f22-raptor/
+├── index.html           # Vite HTML girişi
+├── package.json
+├── vite.config.js
+├── src/
+│   ├── main.js          # Davranış (hero, 3D, reveal, …)
+│   └── style.css        # Tüm stiller
+├── public/
+│   └── assets/          # Video, GLB, görseller (URL: /assets/…)
+├── dist/                # npm run build çıktısı (.gitignore)
+├── ARCHITECTURE.md
+├── AGENTS.md
+├── CONTRIBUTING.md
+└── .github/workflows/   # CI + Pages deploy
 ```
 
-Yerel önizleme için basit bir HTTP sunucusu kullanın (`file://` ile model-viewer .glb yükleyemez; video yolları da sunucu ile daha tutarlıdır):
+## Yerel çalıştırma
 
 ```bash
-cd "C:\...\f22 raptor"   # klasör adında boşluk varsa tırnak kullanın
-npx --yes serve .
+cd "C:\...\f22-raptor"
+npm install
+npm run dev
 ```
 
-Ardından tarayıcıda `http://localhost:3000` (veya terminalde yazan port) ile açın; `index.html` dosyasına çift tıklamayın.
+Tarayıcı: `http://localhost:5173/` (`file://` kullanmayın; model ve video için HTTP gerekir.)
+
+## Lint ve Pages ile aynı derleme
+
+```bash
+npm run lint:html
+# PowerShell — taban /f22-raptor/ ile derleme
+$env:GITHUB_ACTIONS = "true"
+npm run build
+Remove-Item Env:GITHUB_ACTIONS
+```
+
+## GitHub Pages (Actions)
+
+İlk kurulum: repo **Settings → Pages → Build and deployment** kaynağı **GitHub Actions** olmalı. Eski “Deploy from a branch / (root)” açıksa kapatın; aksi halde iki kaynak çakışabilir. Ayrıntı: **`GITHUB_PUSH.md`**.
 
 ## Hızlı kontrol listesi
 
-- [ ] `assets/video/f22-hero.mp4` ve/veya `f22-hero.webm`
-- [ ] `assets/models/f22.glb` (siyah 3D vitrin)
-- [ ] *(İsteğe bağlı)* `assets/images/sections/f22-vitrine.png` — alttaki siyah Tesla vitrininde PNG kesit
-- [ ] *(İsteğe bağlı)* `assets/images/branding/usaf-7fs-patch.png` — Wikimedia’dan USAF 7th FS F-22 arması
+- [ ] `public/assets/video/` altında hero video (`f22-hero.mp4` / `.webm` veya `f22.mp4`)
+- [ ] `public/assets/models/f22.glb`
+- [ ] İsteğe bağlı: `public/assets/images/sections/f22-vitrine.png`
 
-Detaylar: `assets/README.md`.
+Detaylar: `public/assets/README.md`.
 
-## GitHub’a yükleme
+## Git’e ilk push / güncelleme
 
-Bu ortamda `git` yoksa push buradan yapılamaz. Adım adım komutlar: **`GITHUB_PUSH.md`**.
+`GITHUB_PUSH.md` dosyasına bakın.

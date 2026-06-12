@@ -18,7 +18,10 @@ desktop.ini
 # Node (ileride eklersen)
 node_modules/
 
-# Büyük medya — repoya eklemek istersen bu satırları sil
-# assets/video/*.mp4
-# assets/video/*.webm
-# assets/models/*.glb
+# Büyük medya — repoya eklemek istersen bu satırları sil (yollar: public/assets/…)
+# public/assets/video/*.mp4
+# public/assets/video/*.webm
+# public/assets/models/*.glb
+
+# Vite
+dist/
