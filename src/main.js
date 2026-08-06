@@ -287,6 +287,40 @@
     var mvOrbitPhi = 70;
     var mvOrbitRadius = "54%";
 
+    // === HIZLI KAMERA AÇI BUTONLARI & DÖNÜŞ KONTROLÜ ===
+    var mvControls = document.getElementById("mvControls");
+    if (mvControls && raptorMv) {
+      var presetBtns = mvControls.querySelectorAll("[data-mv-orbit]");
+      presetBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var orbitStr = btn.getAttribute("data-mv-orbit");
+          if (!orbitStr) return;
+          try {
+            raptorMv.cameraOrbit = orbitStr;
+          } catch (err) {}
+          presetBtns.forEach(function (b) { b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+        });
+      });
+
+      var rotateToggle = document.getElementById("mvRotateToggle");
+      if (rotateToggle) {
+        if (raptorMv.hasAttribute("auto-rotate")) {
+          rotateToggle.classList.add("is-active");
+        }
+        rotateToggle.addEventListener("click", function () {
+          var isRotating = raptorMv.hasAttribute("auto-rotate");
+          if (isRotating) {
+            raptorMv.removeAttribute("auto-rotate");
+            rotateToggle.classList.remove("is-active");
+          } else {
+            raptorMv.setAttribute("auto-rotate", "");
+            rotateToggle.classList.add("is-active");
+          }
+        });
+      }
+    }
+
     function applyMvTurntable() {
       if (!raptorMv || raptorMv.style.display === "none") return;
       var a = ((turntableAzimuth % 360) + 360) % 360;

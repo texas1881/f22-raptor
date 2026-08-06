@@ -154,20 +154,47 @@
               data-src="assets/models/f22.glb"
               alt="F-22 Raptor 3D model"
               camera-controls
-              disable-zoom
-              orbit-sensitivity="0.38"
+              auto-rotate
+              auto-rotate-delay="2000"
+              rotation-per-second="15deg"
+              orbit-sensitivity="0.5"
               field-of-view="29deg"
-              min-field-of-view="29deg"
-              max-field-of-view="29deg"
+              min-field-of-view="25deg"
+              max-field-of-view="40deg"
               camera-orbit="0deg 70deg 54%"
-              min-camera-orbit="-360deg 55deg 42%"
-              max-camera-orbit="360deg 88deg auto"
-              interpolation-decay="55"
+              min-camera-orbit="-360deg 10deg 40%"
+              max-camera-orbit="360deg 95deg auto"
+              interpolation-decay="60"
               environment-image="neutral"
-              shadow-intensity="0.88"
-              exposure="1.12"
+              shadow-intensity="1.1"
+              shadow-softness="1"
+              exposure="1.15"
               interaction-prompt="none"
             ></model-viewer>
+
+            <!-- 3D Studio Tactical Angle Bar -->
+            <div class="showcase3d__controls" id="mvControls" aria-label="3D Model Kamera Kontrolleri">
+              <button type="button" class="showcase3d__btn is-active" data-mv-orbit="45deg 70deg 54%" title="Perspektif Açısı">
+                <span class="showcase3d__btn-icon">📐</span>
+                <span>Perspektif</span>
+              </button>
+              <button type="button" class="showcase3d__btn" data-mv-orbit="0deg 75deg 54%" title="Ön / Burun">
+                <span class="showcase3d__btn-icon">🎯</span>
+                <span>Ön</span>
+              </button>
+              <button type="button" class="showcase3d__btn" data-mv-orbit="0deg 15deg 54%" title="Üstten Bakış">
+                <span class="showcase3d__btn-icon">🛸</span>
+                <span>Üst</span>
+              </button>
+              <button type="button" class="showcase3d__btn" data-mv-orbit="90deg 75deg 54%" title="Yan Profil">
+                <span class="showcase3d__btn-icon">✈️</span>
+                <span>Yan</span>
+              </button>
+              <button type="button" class="showcase3d__btn showcase3d__btn--toggle" id="mvRotateToggle" title="Otomatik Dönüşü Aç/Kapat">
+                <span class="showcase3d__btn-icon">🔄</span>
+                <span>Döndür</span>
+              </button>
+            </div>
             <div class="showcase3d__fallback" id="fallback3d" hidden>
               <div class="fake3d" id="fake3dRoot">
                 <div class="fake3d__radar" aria-hidden="true"></div>

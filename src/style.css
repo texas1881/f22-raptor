@@ -1226,6 +1226,62 @@
       color: var(--text-muted);
       line-height: 1.5;
     }
+
+    /* —— 3D Studio Tactical Floating Control Bar —— */
+    .showcase3d__controls {
+      position: absolute;
+      bottom: max(16px, env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(8, 10, 14, 0.78);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      max-width: min(92vw, 540px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .showcase3d__controls::-webkit-scrollbar { display: none; }
+    .showcase3d__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(230, 235, 245, 0.75);
+      background: transparent;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-out);
+    }
+    .showcase3d__btn-icon {
+      font-size: 0.8rem;
+    }
+    .showcase3d__btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .showcase3d__btn.is-active {
+      color: #ffffff;
+      background: rgba(197, 160, 89, 0.25);
+      border-color: var(--raptor-gold);
+      box-shadow: 0 0 12px var(--raptor-gold-a25);
+    }
     .vitrine-studio .showcase3d__orbit-hint {
       color: var(--text-subtle);
     }
