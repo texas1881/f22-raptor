@@ -296,10 +296,20 @@
       }
 
       function setFov(val) {
-        var clamped = Math.max(15, Math.min(45, val));
-        var fovStr = clamped + "deg";
+        var clamped = Math.max(12, Math.min(50, val));
+        var fovStr = clamped.toFixed(1) + "deg";
         raptorMv.setAttribute("field-of-view", fovStr);
         raptorMv.fieldOfView = fovStr;
+      }
+
+      function changeFov(delta) {
+        if (typeof raptorMv.zoom === "function") {
+          try {
+            raptorMv.zoom(delta < 0 ? 1 : -1);
+            return;
+          } catch (e) {}
+        }
+        setFov(getFov() + delta);
       }
 
       function setOrbit(orbitStr) {
@@ -322,7 +332,7 @@
       var zoomInBtn = document.getElementById("mvZoomIn");
       if (zoomInBtn) {
         zoomInBtn.addEventListener("click", function () {
-          setFov(getFov() - 5);
+          changeFov(-5);
         });
       }
 
@@ -330,7 +340,7 @@
       var zoomOutBtn = document.getElementById("mvZoomOut");
       if (zoomOutBtn) {
         zoomOutBtn.addEventListener("click", function () {
-          setFov(getFov() + 5);
+          changeFov(+5);
         });
       }
 
@@ -364,48 +374,22 @@
       }
     }
 
-    function applyMvTurntable() {
-      if (!raptorMv || raptorMv.style.display === "none") return;
-      var a = ((turntableAzimuth % 360) + 360) % 360;
-      try {
-        raptorMv.cameraOrbit = a + "deg " + mvOrbitPhi + "deg " + mvOrbitRadius;
-      } catch (e) {}
-    }
-
     function applyResponsiveMvLayout() {
       if (!raptorMv || raptorMv.style.display === "none") return;
       var narrow = window.matchMedia("(max-width: 768px)").matches;
       try {
-        if (narrow) {
-          raptorMv.removeAttribute("disable-zoom");
-          raptorMv.setAttribute("orbit-sensitivity", "1.05");
-          raptorMv.setAttribute("field-of-view", "34deg");
-          raptorMv.setAttribute("min-field-of-view", "28deg");
-          raptorMv.setAttribute("max-field-of-view", "40deg");
-          mvOrbitPhi = 68;
-          mvOrbitRadius = "72%";
-        } else {
-          raptorMv.setAttribute("disable-zoom", "");
-          raptorMv.setAttribute("orbit-sensitivity", "0.38");
-          raptorMv.setAttribute("field-of-view", "29deg");
-          raptorMv.setAttribute("min-field-of-view", "29deg");
-          raptorMv.setAttribute("max-field-of-view", "29deg");
-          mvOrbitPhi = 70;
-          mvOrbitRadius = "54%";
-        }
+        raptorMv.removeAttribute("disable-zoom");
+        raptorMv.setAttribute("orbit-sensitivity", narrow ? "1.0" : "0.6");
+        raptorMv.setAttribute("min-field-of-view", "12deg");
+        raptorMv.setAttribute("max-field-of-view", "50deg");
       } catch (e) {}
     }
 
-    var mvLayoutResizeTimer;
     window.addEventListener(
       "resize",
       function () {
         if (navController) navController.onScroll();
-        window.clearTimeout(mvLayoutResizeTimer);
-        mvLayoutResizeTimer = window.setTimeout(function () {
-          applyResponsiveMvLayout();
-          applyMvTurntable();
-        }, 120);
+        applyResponsiveMvLayout();
       },
       { passive: true }
     );
