@@ -1,74 +1,41 @@
-# GitHub’a ilk push
+# GitHub Dağıtım ve Yayınlama Rehberi
 
-## Canlı site (GitHub Pages) — **GitHub Actions (önerilen)**
-
-Bu repo **Vite** ile `dist/` üretir; `.github/workflows/pages.yml` her `main` push’ında derleyip Pages’e yükler.
-
-1. Repo **Settings → Pages → Build and deployment**
-2. **Source:** **GitHub Actions** seçin (eski “Deploy from a branch / `main` / (root)” yöntemini kapatın; aksi halde çakışma olabilir).
-3. İlk push sonrası **Actions** sekmesinden “Deploy GitHub Pages” iş akışının yeşil bittiğini doğrulayın; birkaç dakika içinde site güncellenir.
-
-Adres: `https://<kullanıcı>.github.io/<repo-adı>/` — örnek: https://texas1881.github.io/f22-raptor/
-
-### Eski yöntem (düz `main` kökünden statik dosya)
-
-Kökte tek `index.html` + `assets/` varken “branch / root” ile yayın uygundu. **Artık kökte derlenmiş `dist/` yok**; Actions kullanmadan sadece branch’ten yayınlarsanız Vite çıktısı gitmez. Actions kullanın veya manuel olarak `dist/` içeriğini köke kopyalayan ayrı bir süreç tanımlayın.
+Bu doküman, projenin GitHub deposuna aktarılması ve **GitHub Pages** üzerinde canlıya alınması süreçlerini adım adım açıklamaktadır.
 
 ---
 
-## Canlı site (eski not — branch deploy)
+## 🚀 GitHub Pages Otomatik Otomasyonu (GitHub Actions)
 
-Repo **public** iken GitHub Pages ile herkese açık demo:
+Proje **Vite** derleme altyapısını kullanır. `.github/workflows/pages.yml` iş akışı, `main` dalına yapılan her push işleminde projeyi otomatik olarak derler ve canlı ortama aktarır.
 
-- Açmak için: repo **Settings → Pages → Build and deployment → Branch: `main`**, klasör **`/` (root)**.
-- CLI: `gh api -X POST repos/OWNER/REPO/pages -f "build_type=legacy" -f "source[branch]=main" -f "source[path]=/"`
+### Ayar Adımları:
+1. GitHub deposunda **Settings → Pages** sekmesine gidin.
+2. **Build and deployment** başlığı altındaki **Source** seçeneğini **GitHub Actions** olarak ayarlayın.
+3. Push işlemi sonrasında **Actions** sekmesinden otomatik dağıtım sürecini takip edin.
 
-Bu makinede **Git** ve [GitHub CLI](https://cli.github.com/) (`gh`) kurulu olmalı.
+**Canlı Adres Formatı:** `https://<kullanıcı-adı>.github.io/f22-raptor/`
 
-## 1) Kurulum (yoksa)
+---
 
-- Git: https://git-scm.com/download/win  
-- GitHub CLI: `winget install GitHub.cli` veya https://cli.github.com/
-
-Yeni bir terminal açıp `git --version` ve `gh --version` ile doğrula.
-
-## 2) Tek seferde repo oluştur + push
-
-PowerShell’de (klasör adında boşluk var, tırnak kullan):
+## 🛠️ Manuel Git Push Komutları
 
 ```powershell
-cd "c:\Users\zephy\OneDrive\Belgeler\f22 raptor"
-
-git init
-git branch -M main
-git add -A
+# 1. Değişiklikleri inceleyin
 git status
-git commit -m "Initial commit: F-22 Raptor concept landing"
 
-gh auth login
-gh repo create f22-raptor --public --source=. --remote=origin --push
+# 2. Değişiklikleri sahneye ekleyin
+git add .
+
+# 3. Profesyonel commit mesajı ile kaydedin
+git commit -m "feat(3d): optimize 3D model controls and zoom capabilities"
+
+# 4. GitHub ana dalına aktarın
+git push origin main
 ```
 
-- Repo adını değiştirmek için `f22-raptor` yerine istediğin ismi yaz (GitHub’da boşluk kullanılmaz; tire kullan).
-- **Özel repo** için: `--private` kullan.
+---
 
-## 3) `gh` yoksa (sadece Git)
+## ⚠️ Dikkat Edilmesi Gereken Hususlar
 
-1. GitHub’da yeni boş repo oluştur (README ekleme).
-2. Sonra:
-
-```powershell
-cd "c:\Users\zephy\OneDrive\Belgeler\f22 raptor"
-git init
-git branch -M main
-git add -A
-git commit -m "Initial commit: F-22 Raptor concept landing"
-git remote add origin https://github.com/KULLANICI_ADIN/f22-raptor.git
-git push -u origin main
-```
-
-`KULLANICI_ADIN` ve repo URL’sini kendi hesabına göre değiştir.
-
-## Not
-
-Büyük dosyalar (`*.glb`, uzun videolar) repoyu şişirir; `.gitignore` içinde isteğe bağlı yorum satırları var — ihtiyaca göre aç/kapat.
+- **Büyük Medya Dosyaları:** 96 MB üzerindeki medya dosyalarının repoya eklenmesi önerilmez. Gerekirse `.gitignore` içerisinden medya yollarını yönetin.
+- **Base Path Uyumluluğu:** Vite yerel çalışırken base path `/`, derleme sırasında `GITHUB_ACTIONS="true"` değişkeniyle `/f22-raptor/` olarak ayarlanır.

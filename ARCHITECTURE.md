@@ -1,60 +1,59 @@
-# Mimari — F-22 Raptor (statik landing)
+# F-22 Raptor — Mimari Dokümantasyon
 
-## Genel
+Bu belge, **F-22 Raptor** konsept lansman uygulamasının yazılım mimarisini, teknik bileşenlerini ve veri akışını detaylandırmaktadır.
 
-- **Vite** üretim derlemesi: `src/style.css`, `src/main.js`, kök `index.html`.
-- **Statik varlıklar:** `public/assets/` → derlemede `dist/assets/` (URL’de yine `assets/...`).
-- **GitHub Pages:** Proje sitesi tabanı `/f22-raptor/`. `vite.config.js` içinde `GITHUB_ACTIONS === "true"` iken bu taban kullanılır; yerel `npm run dev` tabanı `/` kullanır.
+---
 
-## Önemli dosyalar
+## 🏛️ Mimari Mimarisi & Bileşenler
 
-| Dosya | Rol |
-|--------|-----|
-| `index.html` | Sayfa iskeleti, harici `model-viewer`, Vite girişleri |
-| `src/main.js` | Tüm etkileşim (hero video, reveal, 3D, nav) |
-| `src/style.css` | Tüm stiller |
-| `vite.config.js` | `base`, `publicDir`, `outDir` |
-| `public/assets/` | Video, GLB, görseller, alt README’ler |
+Uygulama, yüksek performans ve sürdürülebilirlik amacıyla **Modüler İnce İstemci (Modular Thin Client)** mimarisiyle tasarlanmıştır.
 
-## Bölüm ID’leri (anchor)
+### Modül Mimarisi (`src/main.js`)
 
-- `#hero` — hero
-- `#overview` — overview
-- `#model-3d` — 3D vitrin
-- `#finale` — final CTA
-- `#vitrine-spec` — siyah spec / datasheet
+1. **`PreloadManager`**
+   - Kullanıcının ağ tasarrufu modu (`navigator.connection.saveData`) aktif değilse 3D GLB dosyasını arka planda önceden yükler (`<link rel="preload">`).
 
-## Harici bağımlılıklar
+2. **`NavigationController`**
+   - Ekran kaydırmasını (`scroll`) `requestAnimationFrame` ile optimize ederek takip eder.
+   - Sayfadaki görünür bölümü tespit ederek sol alttaki bölüm adını (`#sectionIndicator`) ve sağdaki Apple tarzı navigasyon noktalarını (`#chapterRail`) günceller.
+   - Açık renkli bölümlerde (`Overview`) otomatik koyu temaya geçiş sağlar (`on-light`).
 
-- **Google Fonts** — `fonts.googleapis.com` / `fonts.gstatic.com`
-- **model-viewer 3.5.0** — `ajax.googleapis.com/.../model-viewer.min.js` + **SRI** (`index.html`)
+3. **`HeroMediaController`**
+   - Paralel `HEAD` HTTP istekleri ile aday video kaynaklarını taranıp tarayıcıya en uygun `.mp4` / `.webm` formatını dynamic `<source>` olarak bağlar.
+   - Oynatma başarısızlığında statik görsel arka plana (`hero--static`) yumuşak geçiş sağlar.
 
-SRI hash, CDN’deki dosya ile birebir eşleşmeli; CDN güncellenirse `index.html` içindeki `integrity` güncellenmeli.
+4. **`ScrollObserver`**
+   - `IntersectionObserver` API kullanarak `.reveal` sınıfına sahip öğeleri ekrana girdikçe `cubic-bezier(0.16, 1, 0.3, 1)` eğrisiyle görünür kılar.
+   - `[data-counter]` niteliğine sahip veri değerlerini ivmeli matematiksel sayaç animasyonu ile başlatır.
 
-## GLB preload
+5. **`ModelViewerController`**
+   - WebGL tabanlı `<model-viewer>` elementinin yaşam döngüsünü yönetir.
+   - 3D model yüklenme yüzdesini canlı progres çubuğunda gösterir.
+   - Taktiksel kontrol çubuğu üzerinden **Perspektif**, **Ön**, **Üst**, **Yan** açıları ile **Yakınlaştırma (+/-)** ve **Sıfırlama** komutlarını işler.
+   - WebGL desteklenmeyen veya CORS engeli olan durumlarda 2D interaktif paralaks simülasyonunu (`fallback3d`) devreye sokar.
 
-`src/main.js` başında: `navigator.connection.saveData` ise tam GLB `<link rel="preload">` eklenmez.
+---
 
-## Yerel geliştirme
+## 🎨 Tasarım Sistemi & Stil Mimarisi (`src/style.css`)
 
-```bash
-npm install
-npm run dev
+Stil katmanı CSS değişkenleri (Tokens) üzerine inşa edilmiştir:
+
+```css
+:root {
+  --bg-void: #ffffff;
+  --text-primary: #0c0e12;
+  --raptor-gold: #c5a059;
+  --raptor-gold-deep: #8a703f;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
 ```
 
-`http://localhost:5173/` — taban `/` olduğu için kökten açılır.
+- **Liquid Glassmorphism:** Çok katmanlı buğulu cam efekti (`backdrop-filter: blur(20px) saturate(1.8)`) ve speküler üst yansıma çizgileriyle oluşturulmuştur.
+- **Duyarlılık (Responsiveness):** `clamp()`, `min()`, `max()` ve `env(safe-area-inset-*)` kullanılarak tüm mobil ve masaüstü ekran boyutlarında mükemmel ölçeklenme sağlanmıştır.
 
-## Üretim derlemesi (Pages ile aynı taban)
+---
 
-```bash
-# PowerShell
-$env:GITHUB_ACTIONS = "true"
-npm run build
-Remove-Item Env:GITHUB_ACTIONS
-```
+## 🔄 CI/CD ve Yayınlama Süreci
 
-Çıktı: `dist/`. CI’da `GITHUB_ACTIONS` otomatik `true` olduğu için aynı komut workflow’da çalışır.
-
-## GitHub Pages ayarı
-
-Repo **Settings → Pages → Build and deployment**: kaynak olarak **GitHub Actions** seçilmeli (bu workflow `deploy-pages` kullanır). Eski “Deploy from branch /” kökü ile çakışıyorsa Actions’a geçin.
+- **Derleme:** Vite, `GITHUB_ACTIONS="true"` değişkeniyle GitHub Pages için base path olarak `/f22-raptor/` kullanır.
+- **Dağıtım:** `.github/workflows/pages.yml` dosyası, `main` dalına yapılan her push işleminde projeyi otomatik olarak derleyip GitHub Pages üzerine canlıya alır.

@@ -1,7 +1,19 @@
-# Agent / ekip notları
+# Geliştirici ve Ekip Yönergeleri
 
-- **Dokunulacak kök:** `index.html`, `src/main.js`, `src/style.css`, `public/assets/`, `vite.config.js`.
-- **Büyük binary:** `*.glb`, uzun videolar — commit öncesi boyut ve `.gitignore` tercihini kontrol et.
-- **`<head>`:** `</style>` kapanışı yok; stil `src/style.css` içinde. `index.html`’de `</head>` öncesi link sırasını bozma (font → app CSS).
-- **Harici script:** `model-viewer` URL veya `integrity` değişince tüm tarayıcılarda smoke test.
-- **PR:** Mümkünse küçük diff; `npm run lint:html` ve `GITHUB_ACTIONS=true npm run build` yeşil olsun.
+Bu belge, **F-22 Raptor** projesinde kod yazarken uyulması gereken temel prensipleri ve çalışma kurallarını içerir.
+
+---
+
+## 📌 Temel Kurallar
+
+1. **Ana Dosyalar:**
+   - Değişiklikler temel olarak `index.html`, `src/main.js`, `src/style.css` ve `vite.config.js` dosyalarında gerçekleştirilir.
+
+2. **Büyük Dosya Yönetimi:**
+   - Repoya büyük `.glb` modelleri veya yüksek boyutlu `.mp4` videoları eklemeden önce `.gitignore` tercihlerini kontrol edin.
+
+3. **HTML ve Stil Bütünlüğü:**
+   - Stiller doğrudan `src/style.css` içinde tutulur. `index.html` içerisindeki `<head>` font ve CSS bağlantı sıralamasına müdahale etmeyin.
+
+4. **Test ve Derleme:**
+   - Commit atmadan önce `npm run lint:html` ve `$env:GITHUB_ACTIONS="true"; npm run build` komutlarının yeşil bittiğinden emin olun.

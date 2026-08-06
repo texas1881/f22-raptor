@@ -287,57 +287,65 @@
     var mvOrbitPhi = 70;
     var mvOrbitRadius = "54%";
 
-    // === HIZLI KAMERA AÇI BUTONLARI & DÖNÜŞ KONTROLÜ ===
+    // === 3D KAMERA AÇI VE ZOOM KONTROL DİNLEYİCİLERİ ===
     var mvControls = document.getElementById("mvControls");
     if (mvControls && raptorMv) {
+      function getFov() {
+        var fovAttr = raptorMv.getAttribute("field-of-view") || raptorMv.fieldOfView || "28deg";
+        return parseFloat(fovAttr) || 28;
+      }
+
+      function setFov(val) {
+        var clamped = Math.max(15, Math.min(45, val));
+        var fovStr = clamped + "deg";
+        raptorMv.setAttribute("field-of-view", fovStr);
+        raptorMv.fieldOfView = fovStr;
+      }
+
+      function setOrbit(orbitStr) {
+        raptorMv.setAttribute("camera-orbit", orbitStr);
+        raptorMv.cameraOrbit = orbitStr;
+      }
+
       var presetBtns = mvControls.querySelectorAll("[data-mv-orbit]");
       presetBtns.forEach(function (btn) {
         btn.addEventListener("click", function () {
           var orbitStr = btn.getAttribute("data-mv-orbit");
           if (!orbitStr) return;
-          try {
-            raptorMv.cameraOrbit = orbitStr;
-          } catch (err) {}
+          setOrbit(orbitStr);
           presetBtns.forEach(function (b) { b.classList.remove("is-active"); });
           btn.classList.add("is-active");
         });
       });
 
-      // Zoom In (+), Zoom Out (-), Reset View
+      // Yakınlaştır (+)
       var zoomInBtn = document.getElementById("mvZoomIn");
       if (zoomInBtn) {
         zoomInBtn.addEventListener("click", function () {
-          try {
-            var currentFov = parseFloat(raptorMv.getFieldOfView()) || 28;
-            var newFov = Math.max(15, currentFov - 5);
-            raptorMv.fieldOfView = newFov + "deg";
-          } catch (err) {}
+          setFov(getFov() - 5);
         });
       }
 
+      // Uzaklaştır (-)
       var zoomOutBtn = document.getElementById("mvZoomOut");
       if (zoomOutBtn) {
         zoomOutBtn.addEventListener("click", function () {
-          try {
-            var currentFov = parseFloat(raptorMv.getFieldOfView()) || 28;
-            var newFov = Math.min(45, currentFov + 5);
-            raptorMv.fieldOfView = newFov + "deg";
-          } catch (err) {}
+          setFov(getFov() + 5);
         });
       }
 
+      // Görünümü Sıfırla
       var resetBtn = document.getElementById("mvResetView");
       if (resetBtn) {
         resetBtn.addEventListener("click", function () {
-          try {
-            raptorMv.cameraOrbit = "45deg 70deg 54%";
-            raptorMv.fieldOfView = "28deg";
-          } catch (err) {}
+          setOrbit("45deg 70deg 54%");
+          setFov(28);
           presetBtns.forEach(function (b) { b.classList.remove("is-active"); });
           if (presetBtns[0]) presetBtns[0].classList.add("is-active");
         });
       }
 
+      // Otomatik Döndürme Aç/Kapat
       var rotateToggle = document.getElementById("mvRotateToggle");
       if (rotateToggle) {
         if (raptorMv.hasAttribute("auto-rotate")) {

@@ -1,61 +1,75 @@
-# F-22 Raptor — concept landing
+# F-22 Raptor — Konsept Lansman Deneyimi
 
-**Canlı demo (GitHub Pages):** https://texas1881.github.io/f22-raptor/  
-**Kaynak:** https://github.com/texas1881/f22-raptor
+[![Vite](https://img.shields.io/badge/Vite-6.4-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![HTML5](https://img.shields.io/badge/HTML5-Semantic-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-Vanilla_Tokens-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-Modular_ES6-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-Statik tek sayfa: kök `index.html` + `src/main.js` + `src/style.css`. Üretimde Vite `dist/` üretir; GitHub Actions ile Pages’e yüklenir (ayar için bkz. `GITHUB_PUSH.md`).
+**Canlı Demo (GitHub Pages):** [https://texas1881.github.io/f22-raptor/](https://texas1881.github.io/f22-raptor/)  
+**GitHub Deposu:** [https://github.com/texas1881/f22-raptor](https://github.com/texas1881/f22-raptor)
 
-## Klasör yapısı
+Bu proje, F-22 Raptor 5. nesil hava üstünlüğü savaş uçağı için hazırlanmış **Apple & Lockheed Martin estetiğinde** interaktif, 3D destekli ve tam duyarlı (responsive) bir web konsept lansman deneyimidir.
+
+---
+
+## 💎 Temel Özellikler
+
+- **Sinematik Hero Arka Planı:** Paralel `HEAD` istekleriyle otomatik video algılama ve sessiz döngüsel oynatma.
+- **İnteraktif 3D Studio:** `<model-viewer>` altyapısı ile 360° döndürülebilir, vektör SVG ikonlu ve Apple Liquid Glassmorphism kontrollü 3D jet modeli.
+- **Akıllı Yakınlaştırma (Zoom UX):** Mantıksal FOV sınırları (`15°` - `45°`) ile 1 tıkla yakınlaşma, uzaklaşma ve görünüm sıfırlama.
+- **Akıcı Navigasyon & HUD Göstergesi:** Ekran kaydırıldıkça dinamik renk değiştiren Apple tarzı mikro-animasyonlu navigasyon çubuğu ve sol alt bölüm göstergesi.
+- **Sıfır Ağır Bağımlılık:** Sadece Vanilla JS ve Vanilla CSS kullanılarak inşa edilmiştir (Vite üretim derlemesi ~9.4 KB JS).
+
+---
+
+## 📂 Proje Dizin Yapısı
 
 ```
 f22-raptor/
-├── index.html           # Vite HTML girişi
-├── package.json
-├── vite.config.js
+├── index.html           # Semantik HTML5 ana giriş belgesi
+├── package.json         # Bağımlılıklar ve npm komutları
+├── vite.config.js       # Vite geliştirme ve Pages base konfigürasyonu
 ├── src/
-│   ├── main.js          # Davranış (hero, 3D, reveal, …)
-│   └── style.css        # Tüm stiller
+│   ├── main.js          # Modüler kontrolcü mantığı (Nav, Hero, 3D, Scroll)
+│   └── style.css        # CSS Değişkenleri (Tokens), mikro-animasyonlar ve stiller
 ├── public/
-│   └── assets/          # Video, GLB, görseller (URL: /assets/…)
-├── dist/                # npm run build çıktısı (.gitignore)
-├── ARCHITECTURE.md
-├── AGENTS.md
-├── CONTRIBUTING.md
-└── .github/workflows/   # CI + Pages deploy
+│   └── assets/          # 3D GLB modelleri, sinematik videolar ve görseller
+├── ARCHITECTURE.md      # Teknik mimari ve modül dokümantasyonu
+├── CONTRIBUTING.md      # Geliştirme ve katkı rehberi
+└── GITHUB_PUSH.md      # GitHub Pages ve CI/CD dağıtım rehberi
 ```
 
-## Yerel çalıştırma
+---
 
+## 🚀 Geliştirme Ortamı
+
+### Kurulum
 ```bash
-cd "C:\...\f22-raptor"
+git clone https://github.com/texas1881/f22-raptor.git
+cd f22-raptor
 npm install
+```
+
+### Yerel Sunucuyu Başlatma
+```bash
 npm run dev
 ```
+Geliştirme sunucusu **`http://localhost:5173/`** adresinde çalışmaya başlayacaktır.
 
-Tarayıcı: `http://localhost:5173/` (`file://` kullanmayın; model ve video için HTTP gerekir.)
+---
 
-## Lint ve Pages ile aynı derleme
+## 🛠️ Derleme ve Kalite Kontrolü
 
+### HTML Standart Kontrolü (Linting)
 ```bash
 npm run lint:html
-# PowerShell — taban /f22-raptor/ ile derleme
+```
+
+### Üretim Derlemesi (GitHub Pages Uyumlu)
+```bash
+# PowerShell
 $env:GITHUB_ACTIONS = "true"
 npm run build
 Remove-Item Env:GITHUB_ACTIONS
 ```
-
-## GitHub Pages (Actions)
-
-İlk kurulum: repo **Settings → Pages → Build and deployment** kaynağı **GitHub Actions** olmalı. Eski “Deploy from a branch / (root)” açıksa kapatın; aksi halde iki kaynak çakışabilir. Ayrıntı: **`GITHUB_PUSH.md`**.
-
-## Hızlı kontrol listesi
-
-- [ ] `public/assets/video/` altında hero video (`f22-hero.mp4` / `.webm` veya `f22.mp4`)
-- [ ] `public/assets/models/f22.glb`
-- [ ] İsteğe bağlı: `public/assets/images/sections/f22-vitrine.png`
-
-Detaylar: `public/assets/README.md`.
-
-## Git’e ilk push / güncelleme
-
-`GITHUB_PUSH.md` dosyasına bakın.
+Üretim dosyaları **`dist/`** dizinine derlenecektir.
