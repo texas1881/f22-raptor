@@ -13,12 +13,28 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <nav class="chapter-rail" aria-label="On this page">
-    <a href="#hero" class="chapter-rail__dot" title="Hero"><span class="sr-only">Hero</span></a>
-    <a href="#overview" class="chapter-rail__dot" title="Overview"><span class="sr-only">Overview</span></a>
-    <a href="#model-3d" class="chapter-rail__dot" title="3D model"><span class="sr-only">3D model</span></a>
-    <a href="#vitrine-spec" class="chapter-rail__dot" title="Specifications"><span class="sr-only">Specifications</span></a>
+  <nav class="chapter-rail" id="chapterRail" aria-label="On this page">
+    <a href="#hero" class="chapter-rail__item" data-label="Hero">
+      <span class="chapter-rail__label">Hero</span>
+      <span class="chapter-rail__dot"></span>
+    </a>
+    <a href="#overview" class="chapter-rail__item" data-label="Overview">
+      <span class="chapter-rail__label">Overview</span>
+      <span class="chapter-rail__dot"></span>
+    </a>
+    <a href="#model-3d" class="chapter-rail__item" data-label="3D Model">
+      <span class="chapter-rail__label">3D Model</span>
+      <span class="chapter-rail__dot"></span>
+    </a>
+    <a href="#vitrine-spec" class="chapter-rail__item" data-label="Specifications">
+      <span class="chapter-rail__label">Specifications</span>
+      <span class="chapter-rail__dot"></span>
+    </a>
   </nav>
+  <div class="section-indicator" id="sectionIndicator" aria-live="polite" aria-atomic="true">
+    <span class="section-indicator__bar"></span>
+    <span class="section-indicator__label" id="sectionIndicatorLabel">Hero</span>
+  </div>
   <aside class="file-protocol-banner" id="fileProtocolBanner" role="alert" aria-live="polite">
     <div class="file-protocol-banner__rail" aria-hidden="true">NOTAM</div>
     <div class="file-protocol-banner__body">

@@ -29,6 +29,36 @@
 
       var nav = document.getElementById("nav");
       var parallaxBg = document.getElementById("parallaxBg");
+      var chapterRail = document.getElementById("chapterRail");
+      var sectionIndicator = document.getElementById("sectionIndicator");
+      var sectionIndicatorLabel = document.getElementById("sectionIndicatorLabel");
+
+      // Section map: id → label, light
+      var sectionMap = [
+        { id: "hero",         label: "Hero",           light: false },
+        { id: "overview",     label: "Overview",       light: true  },
+        { id: "model-3d",     label: "3D Model",       light: false },
+        { id: "finale",       label: "Finale",         light: false },
+        { id: "vitrine-spec", label: "Specifications", light: false },
+      ];
+      var sectionEls = sectionMap.map(function(s) {
+        return { el: document.getElementById(s.id), meta: s };
+      });
+      var railItems = chapterRail ? chapterRail.querySelectorAll(".chapter-rail__item") : [];
+
+      function getActiveSection(y) {
+        var active = sectionEls[0];
+        for (var i = 0; i < sectionEls.length; i++) {
+          var el = sectionEls[i].el;
+          if (!el) continue;
+          if (el.getBoundingClientRect().top <= window.innerHeight * 0.45) {
+            active = sectionEls[i];
+          }
+        }
+        return active;
+      }
+
+      var _lastActiveId = null;
 
       function onScroll() {
         var y = window.scrollY || window.pageYOffset;
@@ -46,6 +76,35 @@
         if (parallaxBg) {
           var t = y * 0.04;
           parallaxBg.style.transform = "translate3d(0, " + t + "px, 0)";
+        }
+
+        // Active section detection
+        var activeSection = getActiveSection(y);
+        var activeId = activeSection ? activeSection.meta.id : null;
+
+        if (activeId !== _lastActiveId) {
+          _lastActiveId = activeId;
+
+          // Update rail dots
+          if (railItems.length) {
+            for (var k = 0; k < railItems.length; k++) {
+              var href = railItems[k].getAttribute("href");
+              var isActive = href === "#" + activeId;
+              railItems[k].classList.toggle("is-active", isActive);
+            }
+          }
+
+          // Update chapter rail light/dark theme
+          if (chapterRail && activeSection) {
+            chapterRail.classList.toggle("on-light", !!activeSection.meta.light);
+          }
+
+          // Update section indicator
+          if (sectionIndicator && sectionIndicatorLabel && activeSection) {
+            sectionIndicatorLabel.textContent = activeSection.meta.label;
+            sectionIndicator.classList.toggle("on-light", !!activeSection.meta.light);
+            sectionIndicator.classList.add("is-visible");
+          }
         }
       }
 
@@ -87,7 +146,8 @@
             heroSources.map(function (s) {
               return fetch(s.url, { method: "HEAD", cache: "force-cache" })
                 .then(function (resp) {
-                  return !!resp.ok;
+                  var ct = (resp.headers.get("content-type") || "").toLowerCase();
+                  return resp.ok && ct.indexOf("text/html") === -1;
                 })
                 .catch(function () {
                   return false;
