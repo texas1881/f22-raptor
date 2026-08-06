@@ -303,6 +303,41 @@
         });
       });
 
+      // Zoom In (+), Zoom Out (-), Reset View
+      var zoomInBtn = document.getElementById("mvZoomIn");
+      if (zoomInBtn) {
+        zoomInBtn.addEventListener("click", function () {
+          try {
+            var currentFov = parseFloat(raptorMv.getFieldOfView()) || 28;
+            var newFov = Math.max(15, currentFov - 5);
+            raptorMv.fieldOfView = newFov + "deg";
+          } catch (err) {}
+        });
+      }
+
+      var zoomOutBtn = document.getElementById("mvZoomOut");
+      if (zoomOutBtn) {
+        zoomOutBtn.addEventListener("click", function () {
+          try {
+            var currentFov = parseFloat(raptorMv.getFieldOfView()) || 28;
+            var newFov = Math.min(45, currentFov + 5);
+            raptorMv.fieldOfView = newFov + "deg";
+          } catch (err) {}
+        });
+      }
+
+      var resetBtn = document.getElementById("mvResetView");
+      if (resetBtn) {
+        resetBtn.addEventListener("click", function () {
+          try {
+            raptorMv.cameraOrbit = "45deg 70deg 54%";
+            raptorMv.fieldOfView = "28deg";
+          } catch (err) {}
+          presetBtns.forEach(function (b) { b.classList.remove("is-active"); });
+          if (presetBtns[0]) presetBtns[0].classList.add("is-active");
+        });
+      }
+
       var rotateToggle = document.getElementById("mvRotateToggle");
       if (rotateToggle) {
         if (raptorMv.hasAttribute("auto-rotate")) {
